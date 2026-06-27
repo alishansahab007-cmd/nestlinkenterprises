@@ -33,9 +33,10 @@
     overflow-x: hidden;
   }
 
-  /* ── CINEMATIC WELCOME GATE ── */
+  /* ── CINEMATIC WELCOME GATE (FIXED BUG) ── */
   .welcome-gate {
-    position: relative;
+    position: fixed;
+    inset: 0;
     width: 100%;
     height: 100vh;
     display: flex;
@@ -44,6 +45,13 @@
     background: #060d1a;
     overflow: hidden;
     z-index: 110;
+    cursor: pointer;
+    transition: transform 1s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.8s ease;
+  }
+  .welcome-gate.dismissed {
+    transform: translateY(-100vh);
+    opacity: 0;
+    pointer-events: none;
   }
 
   .collage-container {
@@ -175,17 +183,9 @@
     0% { transform: translateX(0); }
     100% { transform: translateX(-50%); }
   }
-  @keyframes shimmer {
-    0% { background-position: -200% center; }
-    100% { background-position: 200% center; }
-  }
   @keyframes float {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-8px); }
-  }
-  @keyframes countUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
   }
 
   /* ── SCROLL REVEAL ── */
@@ -228,8 +228,10 @@
     opacity: 0; pointer-events: none;
     transition: background 0.4s ease, backdrop-filter 0.4s ease, padding 0.4s ease, opacity 0.4s ease;
   }
-  nav.scrolled {
+  nav.visible {
     opacity: 1; pointer-events: auto;
+  }
+  nav.scrolled {
     background: rgba(15, 29, 54, 0.97);
     backdrop-filter: blur(20px);
     padding: 0.85rem 1.5rem;
@@ -562,7 +564,7 @@
 <body>
 
 <!-- WELCOME GATE -->
-<div class="welcome-gate" id="welcomeGate">
+<div class="welcome-gate" id="welcomeGate" onclick="dismissGate()">
   <div class="collage-container">
     <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=900&q=80" class="collage-photo" alt="Luxury Villa DHA" />
     <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=900&q=80" class="collage-photo" alt="DHA Contemporary Architecture" />
@@ -578,7 +580,7 @@
     <div class="gate-tagline">Real Estate Sales, Development & Builders — Karachi</div>
   </div>
   <div class="scroll-indicator">
-    <span>Scroll to explore</span>
+    <span>Click or Scroll to explore</span>
     <div class="scroll-mouse"><div class="scroll-wheel"></div></div>
   </div>
 </div>
@@ -647,7 +649,7 @@
   </div>
 </div>
 
-<!-- CEO / ABOUT -->
+<!-- CEO / ABOUT (FIXED PATH TO .JPEG) -->
 <section id="about" class="about">
   <div class="about-content reveal-left">
     <div class="section-eyebrow">The CEO</div>
@@ -662,12 +664,12 @@
     </div>
   </div>
   <div class="ceo-portrait-box reveal-right">
-    <img src="1000117683.jpg" class="main-portrait" alt="M. Umair Sikandar at executive forum" />
+    <img src="ceo-portrait.jpeg" class="main-portrait" alt="M. Umair Sikandar at executive forum" />
     <div class="portrait-caption">M. Umair Sikandar presenting real estate insights at an executive forum</div>
   </div>
 </section>
 
-<!-- MILESTONES -->
+<!-- MILESTONES (FIXED PATHS TO .JPEG) -->
 <section class="milestones">
   <div class="reveal" style="text-align: center; max-width: 650px; margin: 0 auto 3rem auto;">
     <div class="section-eyebrow" style="justify-content: center;">Leadership</div>
@@ -677,7 +679,7 @@
   <div class="milestone-grid stagger-parent">
     <div class="milestone-card reveal" style="--delay: 1;">
       <div class="milestone-img-wrapper">
-        <img src="1000117680.jpg" class="milestone-img" alt="M. Umair Sikandar with Wasim Akram" />
+        <img src="milestone-network.jpeg" class="milestone-img" alt="M. Umair Sikandar with Wasim Akram" />
       </div>
       <div class="milestone-info">
         <h3>Network & Influence</h3>
@@ -686,7 +688,7 @@
     </div>
     <div class="milestone-card reveal" style="--delay: 2;">
       <div class="milestone-img-wrapper">
-        <img src="1000117682.jpg" class="milestone-img" alt="M. Umair Sikandar signing partnership" />
+        <img src="milestone-partnership.jpeg" class="milestone-img" alt="M. Umair Sikandar signing partnership" />
       </div>
       <div class="milestone-info">
         <h3>Strategic Partnerships</h3>
@@ -695,7 +697,7 @@
     </div>
     <div class="milestone-card reveal" style="--delay: 3;">
       <div class="milestone-img-wrapper">
-        <img src="1000117681.jpg" class="milestone-img" alt="Nestlink Quaid Tribute" />
+        <img src="milestone-hq.jpeg" class="milestone-img" alt="Nestlink Quaid Tribute" />
       </div>
       <div class="milestone-info">
         <h3>Zamzama Headquarters</h3>
@@ -914,7 +916,7 @@
   </div><!-- /grid-container -->
 </section>
 
-<!-- CONTACT / ENQUIRY — SIDE BY SIDE -->
+<!-- CONTACT / ENQUIRY ── -->
 <div id="enquiry" class="enquiry">
   <div class="enquiry-info reveal-left">
     <div>
@@ -1009,13 +1011,43 @@
 </footer>
 
 <script>
-  /* ── STICKY NAV ── */
-  const nav = document.getElementById('nav');
+  /* ── DISMISS WELCOME GATE ── */
+  function dismissGate() {
+    const gate = document.getElementById('welcomeGate');
+    const nav = document.getElementById('nav');
+    if (gate) {
+      gate.classList.add('dismissed');
+      // Completely hide from rendering stack after transition finishes to fix white screen bug
+      setTimeout(() => {
+        gate.style.display = 'none';
+      }, 1000);
+    }
+    if (nav) {
+      nav.classList.add('visible');
+    }
+  }
+
+  /* ── STICKY NAV & GATE AUTO DISMISS ── */
   window.addEventListener('scroll', () => {
-    nav.classList.toggle('scrolled', window.scrollY > window.innerHeight * 0.6);
+    const sTop = window.scrollY;
+    const gate = document.getElementById('welcomeGate');
+    const nav = document.getElementById('nav');
+    
+    // Smooth swipe-away threshold triggered cleanly
+    if (sTop > 10 && gate && !gate.classList.contains('dismissed')) {
+      dismissGate();
+    }
+    
+    if (nav) {
+      if (sTop > 50) {
+        nav.classList.add('scrolled');
+      } else {
+        nav.classList.remove('scrolled');
+      }
+    }
   }, { passive: true });
 
-  /* ── SCROLL REVEAL (all three types) ── */
+  /* ── SCROLL REVEAL ── */
   document.addEventListener("DOMContentLoaded", function () {
     const allReveal = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
     const obs = new IntersectionObserver((entries) => {
@@ -1028,10 +1060,10 @@
 
   /* ── PARALLAX DIVIDER ── */
   const parallaxBg = document.getElementById('parallaxBg');
-  if (parallaxBg) {
+  const parallaxDiv = document.getElementById('parallaxDiv');
+  if (parallaxBg && parallaxDiv) {
     window.addEventListener('scroll', () => {
-      const div = document.getElementById('parallaxDiv');
-      const rect = div.getBoundingClientRect();
+      const rect = parallaxDiv.getBoundingClientRect();
       const progress = (window.innerHeight - rect.top) / (window.innerHeight + rect.height);
       parallaxBg.style.transform = `translateY(${(progress - 0.5) * 80}px)`;
     }, { passive: true });
