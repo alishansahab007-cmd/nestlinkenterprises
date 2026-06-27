@@ -4,25 +4,41 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Nestlink Enterprises — Real Estate Sales, Development & Builders</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-<style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+<meta name="description" content="Led by M. Umair Sikandar (Ex-Coordination Secretary DEFCLAREA). Bespoke luxury real estate sourcing, development, and high-yield properties in DHA and Clifton, Karachi." />
 
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+<style>
   :root {
     --gold: #C5A880;
     --gold-light: #E2D3BE;
     --gold-dark: #9E7D51;
     --navy: #0F1D36;
-    --navy-light: #1F305E;
-    --charcoal: #1A1A18;
+    --navy-light: #162644;
+    --navy-deep: #070D1A;
+    --charcoal: #111110;
     --warm-white: #FAF9F6;
     --warm-gray: #EAE5DC;
-    --text-muted: #7E828C;
+    --text-muted: #828A99;
     --serif: 'Cormorant Garamond', Georgia, serif;
-    --sans: 'Inter', system-ui, sans-serif;
+    --sans: 'Inter', system-ui, -apple-system, sans-serif;
+    --glass-bg: rgba(15, 29, 54, 0.75);
+    --glass-border: rgba(197, 168, 128, 0.18);
   }
 
-  html { scroll-behavior: smooth; }
+  *, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+  }
 
   body {
     font-family: var(--sans);
@@ -30,26 +46,44 @@
     color: var(--navy);
     font-size: 15px;
     line-height: 1.6;
+    /* Eliminate all horizontal scroll sources safely */
     overflow-x: hidden;
+    width: 100%;
+    position: relative;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
-  /* ── CINEMATIC WELCOME GATE (FIXED BUG) ── */
+  /* Avoid flash of unstyled layouts (CLS layout shifts) */
+  img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  input, select, textarea, button {
+    font-family: inherit;
+  }
+
+  /* ── CINEMATIC WELCOME GATE ── */
   .welcome-gate {
     position: fixed;
     inset: 0;
-    width: 100%;
+    width: 100vw;
     height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #060d1a;
+    background: var(--navy-deep);
     overflow: hidden;
-    z-index: 110;
+    z-index: 200;
     cursor: pointer;
+    will-change: transform, opacity;
     transition: transform 1s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.8s ease;
   }
+  
   .welcome-gate.dismissed {
-    transform: translateY(-100vh);
+    transform: translate3d(0, -100vh, 0);
     opacity: 0;
     pointer-events: none;
   }
@@ -62,16 +96,19 @@
     grid-template-rows: repeat(2, 1fr);
     gap: 6px;
     padding: 6px;
-    filter: grayscale(20%) contrast(115%);
+    filter: grayscale(25%) contrast(110%);
+    pointer-events: none;
   }
+
   .collage-photo {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    opacity: 0.38;
-    transform: scale(1.05);
+    opacity: 0.28;
+    transform: translate3d(0, 0, 0) scale(1.05);
     animation: gatePanels 20s ease-in-out infinite alternate;
   }
+  
   .collage-photo:nth-child(1) { grid-column: span 2; animation-delay: 0s; }
   .collage-photo:nth-child(2) { grid-column: span 2; animation-delay: 2s; }
   .collage-photo:nth-child(3) { grid-column: span 1; animation-delay: 4s; }
@@ -80,8 +117,9 @@
   .gate-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, rgba(15, 29, 54, 0.94) 0%, rgba(6, 13, 26, 0.97) 100%);
+    background: linear-gradient(135deg, rgba(15, 29, 54, 0.95) 0%, rgba(6, 13, 26, 0.98) 100%);
     z-index: 2;
+    pointer-events: none;
   }
 
   .gate-branding {
@@ -89,487 +127,1356 @@
     z-index: 3;
     text-align: center;
     max-width: 90%;
-    padding: 2rem;
-    animation: gateBrandingIntro 1.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    width: 650px;
+    padding: 2.5rem;
+    background: rgba(15, 29, 54, 0.4);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(197, 168, 128, 0.15);
+    border-radius: 4px;
+    animation: gateBrandingIntro 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
+
   .gate-logo-wrapper {
     border-top: 1px solid rgba(197, 168, 128, 0.35);
     border-bottom: 1px solid rgba(197, 168, 128, 0.35);
-    padding: 2rem 3rem;
+    padding: 1.5rem 2rem;
     display: inline-block;
+    margin-bottom: 1.5rem;
   }
+
   .gate-title {
     font-family: var(--serif);
-    font-size: clamp(3rem, 10vw, 6.5rem);
-    font-weight: 600;
+    font-size: clamp(2.5rem, 8vw, 5rem);
+    font-weight: 500;
     color: #fff;
     line-height: 1;
-    letter-spacing: 0.06em;
-    text-transform: capitalize;
+    letter-spacing: 0.08em;
   }
   .gate-title span { color: var(--gold); }
+
   .gate-subtitle {
-    font-size: clamp(0.7rem, 2vw, 1.1rem);
+    font-size: clamp(0.7rem, 2vw, 1rem);
     color: var(--gold-light);
-    letter-spacing: 0.35em;
+    letter-spacing: 0.4em;
     text-transform: uppercase;
-    margin-top: 0.5rem;
-    font-weight: 500;
+    margin-top: 0.4rem;
+    font-weight: 600;
   }
+
   .gate-tagline {
     font-size: 0.75rem;
-    color: rgba(255, 255, 255, 0.5);
-    letter-spacing: 0.18em;
+    color: rgba(255, 255, 255, 0.55);
+    letter-spacing: 0.2em;
     text-transform: uppercase;
-    margin-top: 2rem;
+    margin-top: 1rem;
+    line-height: 1.5;
   }
 
   .scroll-indicator {
     position: absolute;
-    bottom: 2rem;
+    bottom: 2.5rem;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translate3d(-50%, 0, 0);
     z-index: 3;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.6rem;
     color: var(--gold-light);
     font-size: 0.65rem;
     text-transform: uppercase;
-    letter-spacing: 0.2em;
-    opacity: 0.7;
-    animation: pulsePrompt 2s infinite ease-in-out;
+    letter-spacing: 0.25em;
+    opacity: 0.8;
+    pointer-events: none;
   }
+  
   .scroll-mouse {
-    width: 20px; height: 32px;
-    border: 1px solid var(--gold-light);
-    border-radius: 10px; position: relative;
+    width: 22px;
+    height: 36px;
+    border: 2px solid var(--gold-light);
+    border-radius: 12px;
+    position: relative;
   }
+  
   .scroll-wheel {
-    width: 2px; height: 6px; background: var(--gold);
-    position: absolute; top: 6px; left: 50%;
-    transform: translateX(-50%); border-radius: 1px;
+    width: 2px;
+    height: 8px;
+    background: var(--gold);
+    position: absolute;
+    top: 6px;
+    left: 50%;
+    transform: translate3d(-50%, 0, 0);
+    border-radius: 1px;
     animation: scrollDrop 1.6s infinite linear;
   }
 
-  /* ── ANIMATIONS ── */
+  /* ── GPU OPTIMIZED ANIMATIONS ── */
   @keyframes gatePanels {
-    0% { transform: scale(1.03) rotate(0deg); }
-    100% { transform: scale(1.09) rotate(0.5deg); }
+    0% { transform: translate3d(0,0,0) scale(1.02); }
+    100% { transform: translate3d(0,0,0) scale(1.08); }
   }
   @keyframes gateBrandingIntro {
-    0% { opacity: 0; filter: blur(12px); transform: translateY(30px); }
-    100% { opacity: 1; filter: blur(0); transform: translateY(0); }
-  }
-  @keyframes pulsePrompt {
-    0%, 100% { opacity: 0.5; transform: translate(-50%, 0); }
-    50% { opacity: 0.9; transform: translate(-50%, -5px); }
+    0% { opacity: 0; transform: translate3d(0, 20px, 0); }
+    100% { opacity: 1; transform: translate3d(0, 0, 0); }
   }
   @keyframes scrollDrop {
-    0% { opacity: 0; top: 4px; }
+    0% { opacity: 0; transform: translate3d(-50%, 0, 0); }
     30% { opacity: 1; }
-    100% { opacity: 0; top: 16px; }
-  }
-  @keyframes heroFadeInUp {
-    from { opacity: 0; transform: translateY(50px); filter: blur(4px); }
-    to { opacity: 1; transform: translateY(0); filter: blur(0); }
+    100% { opacity: 0; transform: translate3d(-50%, 14px, 0); }
   }
   @keyframes lineGrow {
-    from { height: 0%; }
-    to { height: 100%; }
+    from { transform: scaleY(0); transform-origin: top; }
+    to { transform: scaleY(1); transform-origin: top; }
   }
   @keyframes ticker-scroll {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
+    0% { transform: translate3d(0, 0, 0); }
+    100% { transform: translate3d(-50%, 0, 0); }
   }
   @keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-8px); }
+    0%, 100% { transform: translate3d(0, 0, 0); }
+    50% { transform: translate3d(0, -10px, 0); }
   }
 
-  /* ── SCROLL REVEAL ── */
+  /* ── SCROLL REVEAL (SUBTLE OFFSETS REDUCE OVERFLOW RISKS) ── */
   .reveal {
     opacity: 0;
-    transform: translateY(55px) scale(0.97);
-    filter: blur(3px);
-    transition: opacity 1.1s cubic-bezier(0.25, 1, 0.5, 1),
-                transform 1.1s cubic-bezier(0.25, 1, 0.5, 1),
-                filter 1.1s cubic-bezier(0.25, 1, 0.5, 1);
+    transform: translate3d(0, 30px, 0);
     will-change: transform, opacity;
+    transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
   }
   .reveal.visible {
     opacity: 1;
-    transform: translateY(0) scale(1);
-    filter: blur(0);
+    transform: translate3d(0, 0, 0);
   }
+  
   .reveal-left {
     opacity: 0;
-    transform: translateX(-50px);
-    transition: opacity 1.1s cubic-bezier(0.25, 1, 0.5, 1), transform 1.1s cubic-bezier(0.25, 1, 0.5, 1);
+    transform: translate3d(-20px, 0, 0);
+    will-change: transform, opacity;
+    transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
   }
-  .reveal-left.visible { opacity: 1; transform: translateX(0); }
+  .reveal-left.visible {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+
   .reveal-right {
     opacity: 0;
-    transform: translateX(50px);
-    transition: opacity 1.1s cubic-bezier(0.25, 1, 0.5, 1), transform 1.1s cubic-bezier(0.25, 1, 0.5, 1);
+    transform: translate3d(20px, 0, 0);
+    will-change: transform, opacity;
+    transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
   }
-  .reveal-right.visible { opacity: 1; transform: translateX(0); }
+  .reveal-right.visible {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
 
-  .stagger-parent .reveal { transition-delay: calc(var(--delay, 0) * 0.15s); }
-  .stagger-parent .reveal-left { transition-delay: calc(var(--delay, 0) * 0.12s); }
+  .stagger-parent .reveal { transition-delay: calc(var(--delay, 0) * 0.1s); }
 
-  /* ── NAVIGATION ── */
-  nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 1.25rem 1.5rem;
-    background: transparent;
-    opacity: 0; pointer-events: none;
-    transition: background 0.4s ease, backdrop-filter 0.4s ease, padding 0.4s ease, opacity 0.4s ease;
+  /* ── PREMIUM HEADER & STICKY NAV ── */
+  .site-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    transition: background 0.4s ease, backdrop-filter 0.4s ease, border-color 0.4s ease, padding 0.4s ease;
+    padding: 1.5rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
   }
-  nav.visible {
-    opacity: 1; pointer-events: auto;
-  }
-  nav.scrolled {
-    background: rgba(15, 29, 54, 0.97);
+  
+  .site-header.scrolled {
+    background: var(--glass-bg);
     backdrop-filter: blur(20px);
-    padding: 0.85rem 1.5rem;
-    border-bottom: 1px solid rgba(197, 168, 128, 0.25);
-    box-shadow: 0 4px 30px rgba(0,0,0,0.3);
+    border-bottom: 1px solid var(--glass-border);
+    padding: 0.95rem 1.5rem;
   }
-  .nav-logo-block { display: flex; flex-direction: column; text-decoration: none; }
-  .nav-logo { font-family: var(--serif); font-size: 1.4rem; font-weight: 600; color: #fff; letter-spacing: 0.04em; line-height: 1.1; }
-  .nav-logo span { color: var(--gold); }
-  .nav-sub { font-size: 0.58rem; color: var(--gold-light); letter-spacing: 0.12em; text-transform: uppercase; font-weight: 500; }
-  .nav-links { display: none; gap: 2rem; align-items: center; }
-  .nav-links a { font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.7); text-decoration: none; transition: color 0.3s; }
-  .nav-links a:hover { color: var(--gold-light); }
-  .nav-cta {
-    font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase;
-    color: #fff; background: var(--gold-dark); text-decoration: none;
-    padding: 0.55rem 1rem; font-weight: 600;
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  .nav-cta:hover { background: var(--gold); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(197, 168, 128, 0.3); }
 
-  /* ── HERO ── */
-  .hero {
-    position: relative; min-height: 100vh;
-    display: flex; align-items: center; overflow: hidden;
-    padding: 8rem 1.5rem 4rem 1.5rem;
+  .nav-logo-block {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    z-index: 102; /* Stay above overlay */
   }
-  .hero-bg { position: absolute; inset: 0; background: linear-gradient(135deg, #060e20 0%, #0F1D36 100%); }
+  
+  .nav-logo {
+    font-family: var(--serif);
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #fff;
+    letter-spacing: 0.05em;
+    line-height: 1.1;
+  }
+  .nav-logo span { color: var(--gold); }
+  .nav-sub {
+    font-size: 0.6rem;
+    color: var(--gold-light);
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-top: 1px;
+  }
+
+  /* Links & Button Wrapper - Flex containment prevents wrap overlap */
+  .nav-action-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 2.5rem;
+  }
+
+  .nav-links {
+    display: none; /* Controlled on desktop breakpoint */
+    gap: 2.5rem;
+    align-items: center;
+  }
+  
+  .nav-links a {
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.78);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+    padding: 0.5rem 0;
+    position: relative;
+  }
+  
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: var(--gold);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.3s ease;
+  }
+
+  .nav-links a:hover { color: #fff; }
+  .nav-links a:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+
+  .nav-cta {
+    display: none; /* Hide on intermediate widths to prevent overlap */
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #fff;
+    background: var(--gold-dark);
+    text-decoration: none;
+    padding: 0.8rem 1.5rem;
+    font-weight: 600;
+    border-radius: 2px;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    border: 1px solid transparent;
+    min-height: 44px; /* Touch target minimum */
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .nav-cta:hover {
+    background: transparent;
+    border-color: var(--gold);
+    color: var(--gold-light);
+    transform: translate3d(0, -2px, 0);
+    box-shadow: 0 8px 20px rgba(158, 125, 81, 0.25);
+  }
+
+  /* ── HAMBURGER MENU ── */
+  .hamburger-btn {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 28px;
+    height: 18px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    z-index: 102;
+    padding: 0;
+    min-width: 44px; /* Touch target enhancement */
+    min-height: 44px;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .hamburger-btn span {
+    display: block;
+    width: 26px;
+    height: 2px;
+    background: #fff;
+    transition: transform 0.3s ease, opacity 0.3s ease, background-color 0.3s ease;
+  }
+
+  /* Hamburger Active Animation States */
+  .hamburger-btn.active span:nth-child(1) {
+    transform: translateY(6px) rotate(45deg);
+  }
+  .hamburger-btn.active span:nth-child(2) {
+    opacity: 0;
+  }
+  .hamburger-btn.active span:nth-child(3) {
+    transform: translateY(-6px) rotate(-45deg);
+  }
+
+  /* ── LUXURY GLASS MOBILE DRAWER ── */
+  .mobile-drawer {
+    position: fixed;
+    inset: 0;
+    background: rgba(7, 13, 26, 0.98);
+    backdrop-filter: blur(25px);
+    z-index: 101;
+    transform: translate3d(100%, 0, 0);
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 4rem 2.5rem;
+    gap: 3rem;
+  }
+  
+  .mobile-drawer.active {
+    transform: translate3d(0, 0, 0);
+  }
+
+  .mobile-drawer-links {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .mobile-drawer-links a {
+    font-family: var(--serif);
+    font-size: 2.2rem;
+    font-weight: 500;
+    color: #fff;
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    transition: color 0.3s ease;
+  }
+  
+  .mobile-drawer-links a:hover {
+    color: var(--gold);
+  }
+
+  .mobile-drawer-cta {
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--navy);
+    background: var(--gold);
+    text-decoration: none;
+    padding: 1rem 1.8rem;
+    font-weight: 700;
+    text-align: center;
+    border-radius: 2px;
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* ── HERO SECTION ── */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    padding: 8rem 1.5rem 4rem 1.5rem;
+    background: var(--navy-deep);
+  }
+  
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, #060d1a 0%, var(--navy) 100%);
+    z-index: 0;
+  }
+  
   .hero-bg-img {
-    position: absolute; inset: 0;
+    position: absolute;
+    inset: 0;
     background: url('https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
     opacity: 0.08;
+    z-index: 1;
   }
+  
   .hero-grid {
-    position: absolute; inset: 0;
+    position: absolute;
+    inset: 0;
     background-image:
-      linear-gradient(rgba(197,168,128,0.04) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(197,168,128,0.04) 1px, transparent 1px);
-    background-size: 50px 50px;
+      linear-gradient(rgba(197,168,128,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(197,168,128,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    z-index: 2;
   }
+  
   .hero-line {
-    position: absolute; left: 1.5rem; top: 0; width: 1px;
-    background: linear-gradient(to bottom, transparent 0%, var(--gold) 40%, var(--gold) 70%, transparent 100%);
-    opacity: 0.2; animation: lineGrow 2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    position: absolute;
+    left: 1.5rem;
+    top: 0;
+    width: 1px;
+    height: 100%;
+    background: linear-gradient(to bottom, transparent 0%, var(--gold) 40%, var(--gold) 75%, transparent 100%);
+    opacity: 0.25;
+    transform: scaleY(0);
+    animation: lineGrow 2.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    z-index: 3;
   }
+  
   .hero-content {
-    position: relative; z-index: 2; max-width: 700px;
-    animation: heroFadeInUp 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    position: relative;
+    z-index: 4;
+    max-width: 800px;
+    width: 100%;
+    transform: translate3d(0, 30px, 0);
+    opacity: 0;
+    animation: gateBrandingIntro 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
   }
+  
   .hero-eyebrow {
-    font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase;
-    color: var(--gold); margin-bottom: 1.25rem;
-    display: flex; align-items: center; gap: 0.75rem; font-weight: 600;
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.5rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+    font-weight: 600;
   }
-  .hero-eyebrow::before { content: ''; display: block; width: 1.5rem; height: 1px; background: var(--gold); }
+  .hero-eyebrow::before {
+    content: '';
+    display: block;
+    width: 2rem;
+    height: 1px;
+    background: var(--gold);
+  }
+  
   h1 {
-    font-family: var(--serif); font-size: clamp(2.6rem, 7vw, 4.8rem);
-    font-weight: 700; line-height: 1.05; color: #fff;
-    margin-bottom: 1.25rem; letter-spacing: -0.01em;
+    font-family: var(--serif);
+    font-size: clamp(2.5rem, 6.5vw, 4.8rem);
+    font-weight: 500;
+    line-height: 1.08;
+    color: #fff;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.01em;
   }
-  h1 em { font-style: italic; color: var(--gold-light); font-weight: 600; }
+  h1 em {
+    font-style: italic;
+    color: var(--gold-light);
+    font-weight: 400;
+  }
+  
   .hero-sub {
-    font-size: 0.95rem; color: rgba(255, 255, 255, 0.65); max-width: 480px;
-    line-height: 1.7; margin-bottom: 2.5rem; font-weight: 300;
+    font-size: 0.98rem;
+    color: rgba(255, 255, 255, 0.65);
+    max-width: 580px;
+    line-height: 1.75;
+    margin-bottom: 3rem;
+    font-weight: 300;
   }
-  .btn-group { display: flex; gap: 0.85rem; flex-wrap: wrap; }
-  .btn-primary, .btn-whatsapp {
-    display: inline-flex; align-items: center; gap: 0.5rem;
-    font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
-    padding: 0.95rem 1.75rem;
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  .btn-primary { background: var(--gold); color: var(--navy); text-decoration: none; }
-  .btn-primary:hover { background: #fff; transform: translateY(-4px) scale(1.02); box-shadow: 0 10px 20px rgba(255,255,255,0.1); }
-  .btn-whatsapp { background: #25D366; color: #fff; text-decoration: none; }
-  .btn-whatsapp:hover { background: #20ba5a; transform: translateY(-4px) scale(1.02); box-shadow: 0 10px 20px rgba(37, 211, 102, 0.25); }
-  .btn-whatsapp svg { width: 16px; height: 16px; fill: currentColor; }
-
-  .hero-stats {
-    display: flex; gap: 2.5rem; margin-top: 3.5rem;
-    border-top: 1px solid rgba(255,255,255,0.08); padding-top: 1.5rem;
+  
+  .btn-group {
+    display: flex;
+    gap: 1.2rem;
     flex-wrap: wrap;
   }
-  .hero-stat .n { font-family: var(--serif); font-size: 2rem; font-weight: 700; color: var(--gold-light); line-height: 1.1; }
-  .hero-stat .l { font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.5); margin-top: 0.25rem; font-weight: 500; }
+  
+  .btn-primary, .btn-whatsapp {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 1.1rem 2rem;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    min-height: 48px;
+    border-radius: 2px;
+  }
+  
+  .btn-primary {
+    background: var(--gold);
+    color: var(--navy);
+    text-decoration: none;
+    border: 1px solid var(--gold);
+  }
+  
+  .btn-primary:hover {
+    background: transparent;
+    color: var(--gold);
+    transform: translate3d(0, -3px, 0);
+    box-shadow: 0 10px 25px rgba(197, 168, 128, 0.2);
+  }
+  
+  .btn-whatsapp {
+    background: #25D366;
+    color: #fff;
+    text-decoration: none;
+    border: 1px solid #25D366;
+  }
+  
+  .btn-whatsapp:hover {
+    background: transparent;
+    color: #25D366;
+    transform: translate3d(0, -3px, 0);
+    box-shadow: 0 10px 25px rgba(37, 211, 102, 0.2);
+  }
+  .btn-whatsapp svg {
+    width: 16px;
+    height: 16px;
+    fill: currentColor;
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 3.5rem;
+    margin-top: 4.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 2rem;
+    flex-wrap: wrap;
+  }
+  
+  .hero-stat .n {
+    font-family: var(--serif);
+    font-size: 2.2rem;
+    font-weight: 500;
+    color: var(--gold-light);
+    line-height: 1.1;
+  }
+  
+  .hero-stat .l {
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.45);
+    margin-top: 0.4rem;
+    font-weight: 600;
+  }
 
   /* ── TICKER ── */
-  .ticker { background: var(--navy); padding: 0.85rem 0; overflow: hidden; border-top: 1px solid rgba(197,168,128,0.2); border-bottom: 1px solid rgba(197,168,128,0.2); }
-  .ticker-track { display: flex; animation: ticker-scroll 38s linear infinite; white-space: nowrap; }
-  .ticker-item { font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold-light); padding: 0 2.5rem; flex-shrink: 0; font-weight: 600; }
-  .ticker-item span { color: var(--gold); margin-left: 0.5rem; }
+  .ticker {
+    background: var(--navy-deep);
+    padding: 1rem 0;
+    overflow: hidden;
+    border-top: 1px solid rgba(197, 168, 128, 0.15);
+    border-bottom: 1px solid rgba(197, 168, 128, 0.15);
+  }
+  
+  .ticker-track {
+    display: flex;
+    animation: ticker-scroll 45s linear infinite;
+    width: max-content;
+    will-change: transform;
+  }
+  
+  .ticker-item {
+    font-size: 0.68rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    padding: 0 3rem;
+    flex-shrink: 0;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+  }
+  .ticker-item span {
+    color: var(--gold);
+    margin-left: 0.75rem;
+  }
 
-  /* ── SECTIONS SHARED ── */
-  section { padding: 5rem 1.5rem; overflow: hidden; }
+  /* ── SECTIONS BASE ── */
+  section {
+    padding: 6rem 1.5rem;
+    position: relative;
+    overflow: hidden; /* Prevent localized overflow leak */
+  }
+
+  .section-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+  }
+  
   .section-eyebrow {
-    font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase;
-    color: var(--gold-dark); margin-bottom: 0.85rem;
-    display: flex; align-items: center; gap: 0.75rem; font-weight: 700;
+    font-size: 0.68rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--gold-dark);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-weight: 700;
   }
-  .section-eyebrow::after { content: ''; display: block; width: 1.5rem; height: 1px; background: var(--gold-dark); opacity: 0.5; }
+  .section-eyebrow::after {
+    content: '';
+    display: block;
+    width: 2rem;
+    height: 1px;
+    background: var(--gold-dark);
+    opacity: 0.4;
+  }
+  
   h2 {
-    font-family: var(--serif); font-size: clamp(2.2rem, 6vw, 3.4rem);
-    font-weight: 700; line-height: 1.1; margin-bottom: 1.25rem;
+    font-family: var(--serif);
+    font-size: clamp(2.2rem, 5.5vw, 3.4rem);
+    font-weight: 500;
+    line-height: 1.15;
+    margin-bottom: 1.5rem;
+    color: var(--navy);
   }
-  h2 em { font-style: italic; color: var(--gold-dark); font-weight: 600; }
-  .section-lead { font-size: 0.95rem; color: var(--text-muted); line-height: 1.65; font-weight: 300; margin-bottom: 2.5rem; }
+  h2 em {
+    font-style: italic;
+    color: var(--gold-dark);
+    font-weight: 400;
+  }
+  
+  .section-lead {
+    font-size: 1rem;
+    color: var(--text-muted);
+    line-height: 1.75;
+    font-weight: 300;
+    margin-bottom: 3.5rem;
+    max-width: 680px;
+  }
 
   /* ── CEO / ABOUT ── */
-  .about { background: #fff; display: grid; grid-template-columns: 1fr; gap: 3.5rem; }
-  .about-content { display: flex; flex-direction: column; justify-content: center; }
-  .about-content p { color: var(--navy); opacity: 0.85; font-weight: 300; line-height: 1.7; margin-bottom: 1.25rem; font-size: 0.95rem; }
-  .ceo-badge { background: var(--navy); color: #fff; padding: 1.25rem; border-left: 3px solid var(--gold); margin: 1.5rem 0 2rem 0; }
-  .ceo-badge .title { font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.25rem; font-weight: 700; }
-  .ceo-badge .name { font-family: var(--serif); font-size: 1.6rem; font-weight: 700; margin-bottom: 0.35rem; }
-  .ceo-badge .role { font-size: 0.75rem; color: rgba(255,255,255,0.7); line-height: 1.4; }
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 4rem;
+  }
+  
+  .about-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  .about-content p {
+    color: var(--navy);
+    opacity: 0.85;
+    font-weight: 300;
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+    font-size: 0.98rem;
+  }
+  
+  .ceo-badge {
+    background: var(--navy);
+    color: #fff;
+    padding: 2rem;
+    border-left: 3px solid var(--gold);
+    margin: 1.5rem 0 2rem 0;
+    border-radius: 2px;
+  }
+  
+  .ceo-badge .title {
+    font-size: 0.68rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+  }
+  
+  .ceo-badge .name {
+    font-family: var(--serif);
+    font-size: 1.8rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.02em;
+  }
+  
+  .ceo-badge .role {
+    font-size: 0.78rem;
+    color: rgba(255, 255, 255, 0.75);
+    line-height: 1.5;
+    font-weight: 400;
+  }
 
-  .ceo-portrait-box { position: relative; display: flex; flex-direction: column; gap: 1rem; }
-  .main-portrait { width: 100%; height: 480px; object-fit: cover; border: 1px solid var(--warm-gray); box-shadow: 0 16px 40px rgba(0,0,0,0.08); transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
-  .ceo-portrait-box:hover .main-portrait { transform: scale(1.02); }
-  .portrait-caption { font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; text-align: center; border-top: 1px solid var(--warm-gray); padding-top: 0.5rem; }
+  .ceo-portrait-box {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+  }
+  
+  .main-portrait {
+    width: 100%;
+    height: 480px;
+    object-fit: cover;
+    border: 1px solid var(--warm-gray);
+    box-shadow: 0 20px 50px rgba(15, 29, 54, 0.08);
+    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    border-radius: 2px;
+  }
+  
+  .ceo-portrait-box:hover .main-portrait {
+    transform: scale(1.015);
+  }
+  
+  .portrait-caption {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    text-align: center;
+    border-top: 1px solid var(--warm-gray);
+    padding-top: 0.8rem;
+    font-weight: 500;
+  }
 
   /* ── MILESTONES ── */
-  .milestones { background: var(--navy); color: #fff; }
+  .milestones {
+    background: var(--navy-deep);
+    color: #fff;
+  }
+  
   .milestones h2 { color: #fff; }
   .milestones h2 em { color: var(--gold-light); }
-  .milestone-grid { display: grid; grid-template-columns: 1fr; gap: 2rem; margin-top: 3rem; }
+  
+  .milestone-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    margin-top: 4rem;
+  }
+  
   .milestone-card {
-    background: var(--navy-light); border: 1px solid rgba(197, 168, 128, 0.15);
-    padding: 1rem; display: flex; flex-direction: column; gap: 1rem;
+    background: var(--navy-light);
+    border: 1px solid rgba(197, 168, 128, 0.12);
+    padding: 1.2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    border-radius: 4px;
     transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease, box-shadow 0.4s ease;
   }
-  .milestone-card:hover { transform: translateY(-8px) scale(1.02); border-color: var(--gold); box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
-  .milestone-img-wrapper { width: 100%; height: 240px; overflow: hidden; position: relative; }
-  .milestone-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1); }
-  .milestone-card:hover .milestone-img { transform: scale(1.08); }
-  .milestone-info h3 { font-family: var(--serif); font-size: 1.3rem; font-weight: 700; color: var(--gold-light); margin-bottom: 0.35rem; }
-  .milestone-info p { font-size: 0.82rem; color: rgba(255,255,255,0.6); font-weight: 300; line-height: 1.55; }
+  
+  .milestone-card:hover {
+    transform: translate3d(0, -8px, 0);
+    border-color: var(--gold);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.45);
+  }
+  
+  .milestone-img-wrapper {
+    width: 100%;
+    height: 240px;
+    overflow: hidden;
+    position: relative;
+    border-radius: 2px;
+    background: var(--navy-deep);
+  }
+  
+  .milestone-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transform: scale(1.35);
+    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+  
+  .milestone-card:hover .milestone-img,
+  .milestone-card:active .milestone-img {
+    transform: scale(1);
+  }
+  
+  .milestone-info h3 {
+    font-family: var(--serif);
+    font-size: 1.4rem;
+    font-weight: 500;
+    color: var(--gold-light);
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.02em;
+  }
+  
+  .milestone-info p {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.6);
+    font-weight: 300;
+    line-height: 1.6;
+  }
+
+  /* ── PARALLAX DIVIDER ── */
+  .parallax-divider {
+    position: relative;
+    height: 320px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .parallax-divider-bg {
+    position: absolute;
+    inset: -60px 0; /* Add top/bottom bleed to avoid gaps during transform */
+    background: url('https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
+    filter: brightness(0.25);
+    transform: translate3d(0, 0, 0);
+    will-change: transform;
+  }
+  
+  .parallax-divider-text {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    font-family: var(--serif);
+    font-size: clamp(1.6rem, 4.5vw, 2.8rem);
+    font-weight: 400;
+    color: #fff;
+    line-height: 1.25;
+    padding: 0 1.5rem;
+    letter-spacing: 0.02em;
+    max-width: 900px;
+  }
+  .parallax-divider-text em {
+    color: var(--gold-light);
+    font-style: italic;
+  }
 
   /* ── PROPERTIES PORTFOLIO ── */
   .properties { background: var(--warm-white); }
-  .properties-header { margin-bottom: 3rem; }
-
-  /* Location filter tabs */
+  
   .location-tabs {
-    display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 2.5rem;
+    display: flex;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+    margin-bottom: 3rem;
   }
+  
   .loc-tab {
-    font-size: 0.63rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
-    padding: 0.45rem 1rem; border: 1px solid var(--warm-gray);
-    background: transparent; color: var(--text-muted); cursor: pointer;
-    transition: all 0.3s ease; font-family: var(--sans);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0.6rem 1.4rem;
+    border: 1px solid var(--warm-gray);
+    background: transparent;
+    color: var(--navy);
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    min-height: 44px;
+    border-radius: 2px;
   }
-  .loc-tab.active, .loc-tab:hover { background: var(--navy); color: var(--gold-light); border-color: var(--navy); }
-
-  .grid-container { display: grid; grid-template-columns: 1fr; gap: 2.5rem; }
+  
+  .loc-tab.active, .loc-tab:hover {
+    background: var(--navy);
+    color: var(--gold-light);
+    border-color: var(--navy);
+  }
+  
+  .grid-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+  
   .prop-card {
-    text-decoration: none; color: inherit; display: block;
-    background: #fff; padding: 0; border: 1px solid rgba(0,0,0,0.04);
-    box-shadow: 0 4px 20px rgba(0,0,0,0.04);
-    transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.5s ease;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    background: #fff;
+    padding: 0;
+    border: 1px solid rgba(0, 0, 0, 0.03);
+    box-shadow: 0 10px 30px rgba(15, 29, 54, 0.03);
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.6s ease;
+    overflow: hidden;
+    border-radius: 4px;
+  }
+  
+  .prop-card:hover {
+    transform: translate3d(0, -12px, 0);
+    box-shadow: 0 30px 60px rgba(15, 29, 54, 0.12);
+  }
+  
+  .prop-img-wrapper {
+    position: relative;
+    height: 320px;
+    background: var(--navy-deep);
     overflow: hidden;
   }
-  .prop-card:hover { transform: translateY(-12px) scale(1.01); box-shadow: 0 25px 50px rgba(15, 29, 54, 0.15); }
-  .prop-img-wrapper { position: relative; height: 300px; background: var(--navy); overflow: hidden; }
-  .prop-img-real { width: 100%; height: 100%; object-fit: cover; transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1); }
-  .prop-card:hover .prop-img-real { transform: scale(1.1); }
+  
+  .prop-img-real {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  
+  .prop-card:hover .prop-img-real {
+    transform: scale(1.08);
+  }
+  
   .prop-tag {
-    position: absolute; top: 1rem; left: 1rem;
-    background: var(--navy); color: #fff;
-    font-size: 0.6rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
-    padding: 0.4rem 0.8rem; border-left: 2px solid var(--gold); z-index: 2;
-  }
-  .prop-badge {
-    position: absolute; bottom: 1rem; right: 1rem;
-    background: rgba(197, 168, 128, 0.92); color: var(--navy);
-    font-size: 0.6rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
-    padding: 0.3rem 0.7rem; z-index: 2;
-  }
-  .prop-details { padding: 1.25rem; }
-  .prop-details h3 { font-family: var(--serif); font-size: 1.5rem; font-weight: 700; margin-bottom: 0.25rem; color: var(--navy); transition: color 0.3s ease; }
-  .prop-card:hover .prop-details h3 { color: var(--gold-dark); }
-  .prop-loc { font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.75rem; font-weight: 600; }
-  .prop-meta { font-size: 0.78rem; color: var(--navy); font-weight: 500; border-top: 1px solid var(--warm-gray); padding-top: 0.75rem; display: flex; justify-content: space-between; align-items: center; }
-  .prop-meta span { font-weight: 700; color: var(--gold-dark); }
-  .prop-specs { display: flex; gap: 1rem; margin-bottom: 0.75rem; }
-  .prop-spec { font-size: 0.68rem; color: var(--text-muted); font-weight: 600; display: flex; align-items: center; gap: 0.3rem; }
-  .prop-spec::before { content: ''; display: block; width: 4px; height: 4px; background: var(--gold); border-radius: 50%; }
-
-  /* ── ENQUIRY / CONTACT — SIDE BY SIDE ── */
-  .enquiry {
+    position: absolute;
+    top: 1.2rem;
+    left: 1.2rem;
     background: var(--navy);
-    border-top: 1px solid rgba(197, 168, 128, 0.2);
+    color: #fff;
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0.5rem 1rem;
+    border-left: 2px solid var(--gold);
+    z-index: 2;
+    border-radius: 1px;
+  }
+  
+  .prop-badge {
+    position: absolute;
+    bottom: 1.2rem;
+    right: 1.2rem;
+    background: rgba(197, 168, 128, 0.95);
+    color: var(--navy);
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.4rem 0.8rem;
+    z-index: 2;
+    border-radius: 1px;
+  }
+  
+  .prop-details { padding: 1.8rem; }
+  
+  .prop-details h3 {
+    font-family: var(--serif);
+    font-size: 1.6rem;
+    font-weight: 500;
+    margin-bottom: 0.4rem;
+    color: var(--navy);
+    transition: color 0.3s ease;
+  }
+  
+  .prop-card:hover .prop-details h3 {
+    color: var(--gold-dark);
+  }
+  
+  .prop-loc {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 1.2rem;
+    font-weight: 600;
+  }
+  
+  .prop-specs {
+    display: flex;
+    gap: 1.2rem;
+    margin-bottom: 1.2rem;
+    flex-wrap: wrap;
+  }
+  
+  .prop-spec {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  
+  .prop-spec::before {
+    content: '';
+    display: block;
+    width: 5px;
+    height: 5px;
+    background: var(--gold);
+    border-radius: 50%;
+  }
+  
+  .prop-meta {
+    font-size: 0.82rem;
+    color: var(--navy);
+    font-weight: 500;
+    border-top: 1px solid var(--warm-gray);
+    padding-top: 1.2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .prop-meta span {
+    font-weight: 700;
+    color: var(--gold-dark);
+    font-size: 0.9rem;
+  }
+
+  /* ── ENQUIRY / CONTACT ── */
+  .enquiry {
+    background: var(--navy-deep);
+    border-top: 1px solid rgba(197, 168, 128, 0.15);
     color: var(--warm-white);
     display: grid;
     grid-template-columns: 1fr;
   }
-  .enquiry-info { padding: 4rem 1.5rem 3rem 1.5rem; display: flex; flex-direction: column; justify-content: space-between; }
+  
+  .enquiry-info {
+    padding: 5rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 3rem;
+  }
   .enquiry-info h2 { color: #fff; }
   .enquiry-info h2 em { color: var(--gold-light); }
-
-  /* Meeting CTA strip */
+  
   .meeting-cta {
-    background: linear-gradient(135deg, rgba(197,168,128,0.12), rgba(197,168,128,0.04));
-    border: 1px solid rgba(197,168,128,0.25);
-    padding: 1.25rem 1.5rem;
-    margin: 1.5rem 0;
-    display: flex; align-items: center; gap: 1rem;
+    background: linear-gradient(135deg, rgba(197, 168, 128, 0.1) 0%, rgba(197, 168, 128, 0.03) 100%);
+    border: 1px solid rgba(197, 168, 128, 0.2);
+    padding: 1.5rem;
+    margin: 2rem 0;
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    border-radius: 4px;
   }
-  .meeting-icon { font-size: 1.8rem; flex-shrink: 0; }
-  .meeting-cta-text .t { font-family: var(--serif); font-size: 1.15rem; font-weight: 700; color: var(--gold-light); line-height: 1.2; }
-  .meeting-cta-text .s { font-size: 0.72rem; color: rgba(255,255,255,0.5); margin-top: 0.2rem; }
-
-  .enquiry-grid { margin: 2rem 0; display: grid; gap: 1.75rem; }
-  .enquiry-item .label { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--gold); margin-bottom: 0.25rem; font-weight: 700; }
-  .enquiry-item .val { font-family: var(--serif); font-size: 1.4rem; font-weight: 600; color: var(--warm-gray); line-height: 1.4; }
-  .enquiry-socials { display: flex; gap: 1.25rem; margin-top: 1.5rem; flex-wrap: wrap; }
+  
+  .meeting-icon {
+    font-size: 2.2rem;
+    flex-shrink: 0;
+  }
+  
+  .meeting-cta-text .t {
+    font-family: var(--serif);
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: var(--gold-light);
+    line-height: 1.3;
+  }
+  
+  .meeting-cta-text .s {
+    font-size: 0.78rem;
+    color: rgba(255, 255, 255, 0.5);
+    margin-top: 0.3rem;
+    font-weight: 300;
+  }
+  
+  .enquiry-grid {
+    margin: 2rem 0;
+    display: grid;
+    gap: 2rem;
+  }
+  
+  .enquiry-item .label {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--gold);
+    margin-bottom: 0.4rem;
+    font-weight: 700;
+  }
+  
+  .enquiry-item .val {
+    font-family: var(--serif);
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: var(--warm-gray);
+    line-height: 1.4;
+  }
+  
+  .enquiry-socials {
+    display: flex;
+    gap: 1.2rem;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+  }
+  
   .enquiry-socials a {
-    font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em;
-    color: rgba(255,255,255,0.5); text-decoration: none;
-    padding: 0.4rem 0.9rem; border: 1px solid rgba(255,255,255,0.15);
-    transition: all 0.3s ease; font-weight: 600;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: rgba(255, 255, 255, 0.6);
+    text-decoration: none;
+    padding: 0.6rem 1.2rem;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    transition: all 0.3s ease;
+    font-weight: 600;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    border-radius: 2px;
   }
-  .enquiry-socials a:hover { color: var(--gold-light); border-color: var(--gold); background: rgba(197,168,128,0.08); }
-
-  .enquiry-form-container { background: #091122; padding: 4rem 1.5rem; border-top: 1px solid rgba(197,168,128,0.1); }
-  .form-header { margin-bottom: 2rem; }
-  .form-header h3 { font-family: var(--serif); font-size: 1.8rem; font-weight: 700; color: #fff; margin-bottom: 0.4rem; }
-  .form-header p { font-size: 0.82rem; color: rgba(255,255,255,0.4); font-weight: 300; }
-  form { display: grid; gap: 1.5rem; }
-  .field { display: flex; flex-direction: column; gap: 0.35rem; }
-  .field label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.12em; color: rgba(255,255,255,0.45); font-weight: 700; }
+  
+  .enquiry-socials a:hover {
+    color: var(--gold-light);
+    border-color: var(--gold);
+    background: rgba(197, 168, 128, 0.08);
+  }
+  
+  .enquiry-form-container {
+    background: #080f1e;
+    padding: 5rem 1.5rem;
+    border-top: 1px solid rgba(197, 168, 128, 0.1);
+  }
+  
+  .form-header { margin-bottom: 2.5rem; }
+  
+  .form-header h3 {
+    font-family: var(--serif);
+    font-size: 2rem;
+    font-weight: 500;
+    color: #fff;
+    margin-bottom: 0.5rem;
+  }
+  
+  .form-header p {
+    font-size: 0.88rem;
+    color: rgba(255, 255, 255, 0.45);
+    font-weight: 300;
+  }
+  
+  form {
+    display: grid;
+    gap: 1.8rem;
+  }
+  
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .field label {
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: rgba(255, 255, 255, 0.5);
+    font-weight: 700;
+  }
+  
   form input, form select, form textarea {
-    background: transparent; border: none;
+    background: transparent;
+    border: none;
     border-bottom: 1px solid rgba(197, 168, 128, 0.25);
-    padding: 0.55rem 0; color: #fff; font-family: var(--sans); font-size: 0.9rem;
-    border-radius: 0; transition: border-color 0.3s ease;
+    padding: 0.8rem 0;
+    color: #fff;
+    font-size: 0.95rem;
+    border-radius: 0;
+    transition: border-color 0.3s ease;
+    width: 100%;
   }
-  form select option { background: #091122; color: #fff; }
-  form input:focus, form select:focus, form textarea:focus { outline: none; border-color: var(--gold-light); }
-  form textarea { height: 80px; resize: none; }
+  
+  form select option {
+    background: #080f1e;
+    color: #fff;
+  }
+  
+  form input:focus, form select:focus, form textarea:focus {
+    outline: none;
+    border-color: var(--gold-light);
+  }
+  
+  form textarea {
+    height: 100px;
+    resize: none;
+  }
 
   /* ── FOOTER ── */
-  footer { background: #060d1a; padding: 3rem 1.5rem; display: flex; flex-direction: column; align-items: center; gap: 1.5rem; text-align: center; border-top: 1px solid rgba(197,168,128,0.08); }
-  .footer-logo { font-family: var(--serif); font-size: 1.4rem; color: #fff; letter-spacing: 0.05em; font-weight: 700; }
+  footer {
+    background: var(--navy-deep);
+    padding: 4rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    text-align: center;
+    border-top: 1px solid rgba(197, 168, 128, 0.08);
+  }
+  
+  .footer-logo-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .footer-logo {
+    font-family: var(--serif);
+    font-size: 1.5rem;
+    color: #fff;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+  }
   .footer-logo span { color: var(--gold); }
-  .footer-sub { font-size: 0.55rem; color: var(--gold-light); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 0.15rem; font-weight: 600; }
-  .footer-links { display: flex; gap: 1.25rem; list-style: none; flex-wrap: wrap; justify-content: center; }
-  .footer-links a { font-size: 0.68rem; color: var(--text-muted); text-decoration: none; text-transform: uppercase; letter-spacing: 0.08em; }
-  .footer-copy { font-size: 0.68rem; color: rgba(255,255,255,0.2); margin-top: 0.5rem; }
+  
+  .footer-sub {
+    font-size: 0.58rem;
+    color: var(--gold-light);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-top: 0.3rem;
+    font-weight: 600;
+  }
+  
+  .footer-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .footer-links a {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-weight: 500;
+    transition: color 0.3s ease;
+  }
+  .footer-links a:hover { color: var(--gold-light); }
+  
+  .footer-copy {
+    font-size: 0.72rem;
+    color: rgba(255, 255, 255, 0.25);
+    margin-top: 0.5rem;
+    font-weight: 300;
+  }
 
   /* ── FLOATING WHATSAPP FAB ── */
   .whatsapp-fab {
-    position: fixed; bottom: 1.5rem; right: 1.5rem;
-    background: #25D366; color: #fff; width: 58px; height: 58px;
-    border-radius: 50%; display: flex; align-items: center; justify-content: center;
-    box-shadow: 0 6px 20px rgba(37,211,102,0.3); z-index: 99; text-decoration: none;
-    transition: all 0.3s ease;
-    animation: float 3s ease-in-out infinite;
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    background: #25D366;
+    color: #fff;
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 30px rgba(37, 211, 102, 0.35);
+    z-index: 99;
+    text-decoration: none;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.3s ease;
+    animation: float 4s ease-in-out infinite;
   }
-  .whatsapp-fab:hover { transform: scale(1.12) rotate(8deg); background: #20ba5a; animation: none; }
-  .whatsapp-fab svg { width: 28px; height: 28px; fill: currentColor; }
+  
+  .whatsapp-fab:hover {
+    transform: scale(1.1) rotate(5deg);
+    background: #20ba5a;
+    animation-play-state: paused;
+  }
+  .whatsapp-fab svg {
+    width: 28px;
+    height: 28px;
+    fill: currentColor;
+  }
 
-  /* ── PARALLAX DIVIDER ── */
-  .parallax-divider {
-    position: relative; height: 280px; overflow: hidden;
-    display: flex; align-items: center; justify-content: center;
-  }
-  .parallax-divider-bg {
-    position: absolute; inset: -40px;
-    background: url('https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
-    filter: brightness(0.25);
-    transform: translateY(0);
-    will-change: transform;
-  }
-  .parallax-divider-text {
-    position: relative; z-index: 2; text-align: center;
-    font-family: var(--serif); font-size: clamp(1.8rem, 5vw, 3.2rem);
-    font-weight: 700; color: #fff; line-height: 1.2;
-    padding: 0 1.5rem;
-  }
-  .parallax-divider-text em { color: var(--gold-light); font-style: italic; }
-
-  /* ── RESPONSIVE ── */
+  /* ── FLUID SCALING RESPONSIVE BREAKPOINTS (320px to 4K) ── */
   @media (max-width: 480px) {
-    .gate-logo-wrapper { padding: 1.5rem 1.5rem; }
-    .hero-stats { gap: 1.5rem; }
-    .meeting-cta { flex-direction: column; text-align: center; gap: 0.75rem; }
-    .enquiry-socials { gap: 0.75rem; }
-    h1 { font-size: clamp(2.2rem, 8vw, 3rem); }
+    .gate-branding { padding: 1.8rem 1.2rem; }
+    .hero-stats { gap: 1.8rem; }
+    .meeting-cta {
+      flex-direction: column;
+      text-align: center;
+      gap: 1rem;
+    }
+    .enquiry-socials { gap: 0.8rem; }
+    h1 { font-size: 2.3rem; }
+    .btn-group { flex-direction: column; }
+    .btn-primary, .btn-whatsapp { justify-content: center; width: 100%; }
   }
 
   @media (min-width: 768px) {
-    nav { padding: 1.5rem 3rem; }
-    nav.scrolled { padding: 0.85rem 3rem; }
-    .nav-links { display: flex; }
-    section, .about, .enquiry-info, .enquiry-form-container, footer { padding: 6rem 3rem; }
+    section { padding: 8rem 3rem; }
     .hero { padding: 0 3rem; }
     .hero-line { left: 3rem; }
-    .grid-container { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; }
-    .about { grid-template-columns: 1fr 1fr; display: grid; gap: 4rem; align-items: start; }
-    .main-portrait { height: 580px; }
+    .grid-container {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2.5rem;
+    }
+    .about-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 4rem;
+      align-items: start;
+    }
+    .main-portrait { height: 560px; }
     .milestone-grid { grid-template-columns: repeat(3, 1fr); }
     .milestone-img-wrapper { height: 200px; }
+    .enquiry-info { padding: 6rem 3rem; }
+    .enquiry-form-container { padding: 6rem 3rem; }
   }
 
   @media (min-width: 1024px) {
-    nav { padding: 1.5rem 4rem; }
-    nav.scrolled { padding: 1rem 4rem; }
-    section, .about, .enquiry-info, .enquiry-form-container, footer { padding: 7rem 4rem; }
+    /* Safe Navigation Header Layout Shift prevention */
+    .site-header { padding: 1.8rem 4rem; }
+    .site-header.scrolled { padding: 1.2rem 4rem; }
+    
+    .nav-links { display: flex; }
+    .nav-cta { display: inline-flex; }
+    .hamburger-btn { display: none; }
+    .mobile-drawer { display: none; }
+
+    section { padding: 10rem 4rem; }
     .hero { padding: 0 4rem; }
     .hero-line { left: 4rem; }
-    .grid-container { grid-template-columns: repeat(3, 1fr); gap: 2.5rem; }
+    .grid-container { grid-template-columns: repeat(3, 1fr); }
     .enquiry { grid-template-columns: 1fr 1fr; }
-    .enquiry-form-container { border-top: none; border-left: 1px solid rgba(197,168,128,0.1); padding: 7rem 5rem; }
-    .enquiry-info { padding: 7rem 4rem; }
-    footer { flex-direction: row; justify-content: space-between; text-align: left; padding: 3rem 4rem; }
+    .enquiry-info { padding: 8rem 4rem; }
+    .enquiry-form-container {
+      border-top: none;
+      border-left: 1px solid rgba(197, 168, 128, 0.12);
+      padding: 8rem 5rem;
+    }
+    footer {
+      flex-direction: row;
+      justify-content: space-between;
+      text-align: left;
+      padding: 4rem;
+    }
     .footer-logo-block { align-items: flex-start; }
   }
 
-  @media (min-width: 1280px) {
-    .grid-container { grid-template-columns: repeat(3, 1fr); }
+  @media (min-width: 1920px) {
+    /* 4K & Ultra-wide optimizations */
+    .section-container {
+      max-width: 1600px;
+    }
+    h1 { font-size: 5.5rem; }
+    .main-portrait { height: 700px; }
+    .milestone-img-wrapper { height: 260px; }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .reveal, .reveal-left, .reveal-right { opacity: 1; transform: none; filter: none; }
-    .collage-photo, .ticker-track, .whatsapp-fab { animation: none; }
+    .reveal, .reveal-left, .reveal-right {
+      opacity: 1;
+      transform: none !important;
+    }
+    .collage-photo, .ticker-track, .whatsapp-fab {
+      animation: none !important;
+    }
+    .parallax-divider-bg {
+      transform: none !important;
+    }
   }
 </style>
 </head>
 <body>
 
 <!-- WELCOME GATE -->
-<div class="welcome-gate" id="welcomeGate" onclick="dismissGate()">
+<div class="welcome-gate" id="welcomeGate" onclick="dismissGate()" role="dialog" aria-modal="true" aria-label="Welcome to Nestlink">
   <div class="collage-container">
-    <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=900&q=80" class="collage-photo" alt="Luxury Villa DHA" />
-    <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=900&q=80" class="collage-photo" alt="DHA Contemporary Architecture" />
-    <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=900&q=80" class="collage-photo" alt="Seaview Clifton Karachi" />
-    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=900&q=80" class="collage-photo" alt="Karachi Premium Residence" />
+    <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=900&q=80" class="collage-photo" alt="Luxury Villa Architecture Phase 8 DHA" loading="lazy" />
+    <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=900&q=80" class="collage-photo" alt="DHA Modern Villa Karachi" loading="lazy" />
+    <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=900&q=80" class="collage-photo" alt="Waterfront Living Clifton Karachi" loading="lazy" />
+    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=900&q=80" class="collage-photo" alt="Prime Residential Estate DHA" loading="lazy" />
   </div>
   <div class="gate-overlay"></div>
   <div class="gate-branding">
@@ -580,421 +1487,452 @@
     <div class="gate-tagline">Real Estate Sales, Development & Builders — Karachi</div>
   </div>
   <div class="scroll-indicator">
-    <span>Click or Scroll to explore</span>
+    <span>Interact to explore</span>
     <div class="scroll-mouse"><div class="scroll-wheel"></div></div>
   </div>
 </div>
 
 <!-- FLOATING WHATSAPP FAB -->
-<a href="https://wa.me/923218289388?text=Hello%20Mr.%20Umair%20Sikandar%2C%20I%20would%20like%20to%20schedule%20an%20appointment%20regarding%20Nestlink%20Enterprises%20developments." target="_blank" rel="noopener" class="whatsapp-fab" title="Chat on WhatsApp">
-  <svg viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.625 1.451 5.403.002 9.803-4.381 9.805-9.792.002-2.618-1.01-5.074-2.854-6.92-1.843-1.845-4.294-2.86-6.914-2.86-5.413 0-9.819 4.397-9.822 9.805-.002 1.557.432 3.078 1.258 4.417L1.51 21.009l4.137-1.12c1.28.694 2.454 1.107 4.1 1.107-.002.001-.002.001 0 0zM17.84 14.5c-.32-.16-1.89-.93-2.18-1.04-.3-.11-.52-.16-.74.16-.22.32-.86 1.04-1.05 1.25-.2.21-.4.24-.72.08-1.04-.52-1.78-.92-2.48-1.52-.56-.48-.92-1.07-1.03-1.26-.11-.19-.01-.29.09-.39.08-.08.19-.22.29-.33.1-.11.13-.19.2-.32.07-.13.03-.25-.02-.35-.05-.1-.44-1.05-.6-1.44-.16-.39-.33-.33-.45-.33h-.38c-.13 0-.34.05-.52.24-.18.19-.68.66-.68 1.61 0 .95.69 1.87.79 2.01.1.13 1.36 2.08 3.29 2.91.46.2.82.32 1.1.41.47.15.89.13 1.23.08.38-.06 1.18-.48 1.34-.95.17-.47.17-.87.12-.95-.05-.08-.19-.13-.51-.29z"/></svg>
+<a href="https://wa.me/923218289388?text=Hello%20Mr.%20Umair%20Sikandar%2C%20I%20would%20like%20to%20schedule%20an%20appointment%20regarding%20Nestlink%20Enterprises%20developments." target="_blank" rel="noopener" class="whatsapp-fab" aria-label="Consultation through WhatsApp">
+  <svg viewBox="0 0 24 24" role="img" aria-label="WhatsApp Logo"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.625 1.451 5.403.002 9.803-4.381 9.805-9.792.002-2.618-1.01-5.074-2.854-6.92-1.843-1.845-4.294-2.86-6.914-2.86-5.413 0-9.819 4.397-9.822 9.805-.002 1.557.432 3.078 1.258 4.417L1.51 21.009l4.137-1.12c1.28.694 2.454 1.107 4.1 1.107-.002.001-.002.001 0 0zM17.84 14.5c-.32-.16-1.89-.93-2.18-1.04-.3-.11-.52-.16-.74.16-.22.32-.86 1.04-1.05 1.25-.2.21-.4.24-.72.08-1.04-.52-1.78-.92-2.48-1.52-.56-.48-.92-1.07-1.03-1.26-.11-.19-.01-.29.09-.39.08-.08.19-.22.29-.33.1-.11.13-.19.2-.32.07-.13.03-.25-.02-.35-.05-.1-.44-1.05-.6-1.44-.16-.39-.33-.33-.45-.33h-.38c-.13 0-.34.05-.52.24-.18.19-.68.66-.68 1.61 0 .95.69 1.87.79 2.01.1.13 1.36 2.08 3.29 2.91.46.2.82.32 1.1.41.47.15.89.13 1.23.08.38-.06 1.18-.48 1.34-.95.17-.47.17-.87.12-.95-.05-.08-.19-.13-.51-.29z"/></svg>
 </a>
 
 <!-- STICKY NAV -->
-<nav id="nav">
-  <a href="#" class="nav-logo-block">
+<header class="site-header" id="nav">
+  <a href="#" class="nav-logo-block" aria-label="Nestlink Homepage">
     <span class="nav-logo">Nestlink<span>.</span></span>
     <span class="nav-sub">Enterprises</span>
   </a>
-  <div class="nav-links">
-    <a href="#about">About</a>
-    <a href="#properties">Portfolio</a>
-    <a href="#enquiry">Contact</a>
+  
+  <div class="nav-action-wrapper">
+    <nav class="nav-links" aria-label="Main Navigation">
+      <a href="#about">About</a>
+      <a href="#properties">Portfolio</a>
+      <a href="#enquiry">Contact</a>
+    </nav>
+    <a href="https://wa.me/923218289388?text=Hello%20Mr.%20Umair%20Sikandar%2C%20I%20would%20like%20to%20schedule%20an%20appointment." target="_blank" rel="noopener" class="nav-cta">Appointment</a>
+    
+    <!-- Hamburger button for mobile/tablets -->
+    <button class="hamburger-btn" id="menuToggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="mobileDrawer">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
   </div>
-  <a href="https://wa.me/923218289388?text=Hello%20Mr.%20Umair%20Sikandar%2C%20I%20would%20like%20to%20schedule%20an%20appointment%20regarding%20Nestlink%20Enterprises%20developments." target="_blank" rel="noopener" class="nav-cta">WhatsApp Appointment</a>
-</nav>
+</header>
 
-<!-- HERO -->
-<div class="hero">
-  <div class="hero-bg"></div>
-  <div class="hero-bg-img"></div>
-  <div class="hero-grid"></div>
-  <div class="hero-line"></div>
-  <div class="hero-content">
-    <div class="hero-eyebrow">Real Estate Sales, Development & Builders</div>
-    <h1>Premium Living and Sourcing in <em>DHA Karachi</em></h1>
-    <p class="hero-sub">Led by M. Umair Sikandar, Nestlink Enterprises provides unmatched real estate consultancy, development expertise, and investment solutions across Clifton and DHA Karachi's most prestigious phases.</p>
-    <div class="btn-group">
-      <a href="https://wa.me/923218289388?text=Hello%20Mr.%20Umair%20Sikandar%2C%20I%20would%20like%20to%20schedule%20an%20appointment%20regarding%20Nestlink%20Enterprises%20developments." target="_blank" rel="noopener" class="btn-whatsapp">
-        <svg viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.625 1.451 5.403.002 9.803-4.381 9.805-9.792.002-2.618-1.01-5.074-2.854-6.92-1.843-1.845-4.294-2.86-6.914-2.86-5.413 0-9.819 4.397-9.822 9.805-.002 1.557.432 3.078 1.258 4.417L1.51 21.009l4.137-1.12c1.28.694 2.454 1.107 4.1 1.107-.002.001-.002.001 0 0zM17.84 14.5c-.32-.16-1.89-.93-2.18-1.04-.3-.11-.52-.16-.74.16-.22.32-.86 1.04-1.05 1.25-.2.21-.4.24-.72.08-1.04-.52-1.78-.92-2.48-1.52-.56-.48-.92-1.07-1.03-1.26-.11-.19-.01-.29.09-.39.08-.08.19-.22.29-.33.1-.11.13-.19.2-.32.07-.13.03-.25-.02-.35-.05-.1-.44-1.05-.6-1.44-.16-.39-.33-.33-.45-.33h-.38c-.13 0-.34.05-.52.24-.18.19-.68.66-.68 1.61 0 .95.69 1.87.79 2.01.1.13 1.36 2.08 3.29 2.91.46.2.82.32 1.1.41.47.15.89.13 1.23.08.38-.06 1.18-.48 1.34-.95.17-.47.17-.87.12-.95-.05-.08-.19-.13-.51-.29z"/></svg>
-        WhatsApp Appointment
-      </a>
-      <a href="#properties" class="btn-primary">View Developments</a>
-    </div>
-    <div class="hero-stats">
-      <div class="hero-stat"><div class="n">DHA & Clifton</div><div class="l">Primary Markets</div></div>
-      <div class="hero-stat"><div class="n">Ex-Coord Sec.</div><div class="l">DEFCLAREA Leadership</div></div>
-      <div class="hero-stat"><div class="n">6 Zones</div><div class="l">Portfolio Coverage</div></div>
-    </div>
-  </div>
+<!-- MOBILE DRAWER -->
+<div class="mobile-drawer" id="mobileDrawer" aria-hidden="true">
+  <nav class="mobile-drawer-links" aria-label="Mobile Navigation Drawer">
+    <a href="#about" onclick="toggleDrawer()">About</a>
+    <a href="#properties" onclick="toggleDrawer()">Portfolio</a>
+    <a href="#enquiry" onclick="toggleDrawer()">Contact</a>
+  </nav>
+  <a href="https://wa.me/923218289388?text=Hello%20Mr.%20Umair%20Sikandar%2C%20I%20would%20like%20to%20schedule%20an%20appointment." target="_blank" rel="noopener" class="mobile-drawer-cta">WhatsApp Appointment</a>
 </div>
 
-<!-- TICKER -->
-<div class="ticker">
-  <div class="ticker-track">
-    <div class="ticker-item">DHA PHASE 8 WATERFRONT VILLAS<span>•</span></div>
-    <div class="ticker-item">DHA PHASE 5 ZAMZAMA ELITE<span>•</span></div>
-    <div class="ticker-item">DHA PHASE 6 MODERN BUNGALOWS<span>•</span></div>
-    <div class="ticker-item">SEAVIEW BLOCK CLIFTON<span>•</span></div>
-    <div class="ticker-item">CLIFTON BLOCK 4 HIGH-END RESIDENCES<span>•</span></div>
-    <div class="ticker-item">EMAAR CRESCENT BAY ACQUISITIONS<span>•</span></div>
-    <div class="ticker-item">ZAMZAMA COMMERCIAL DEVELOPMENTS<span>•</span></div>
-    <div class="ticker-item">DHA PHASE 8 WATERFRONT VILLAS<span>•</span></div>
-    <div class="ticker-item">DHA PHASE 5 ZAMZAMA ELITE<span>•</span></div>
-    <div class="ticker-item">DHA PHASE 6 MODERN BUNGALOWS<span>•</span></div>
-    <div class="ticker-item">SEAVIEW BLOCK CLIFTON<span>•</span></div>
-    <div class="ticker-item">CLIFTON BLOCK 4 HIGH-END RESIDENCES<span>•</span></div>
-    <div class="ticker-item">EMAAR CRESCENT BAY ACQUISITIONS<span>•</span></div>
-    <div class="ticker-item">ZAMZAMA COMMERCIAL DEVELOPMENTS<span>•</span></div>
-  </div>
-</div>
-
-<!-- CEO / ABOUT (FIXED PATH TO .JPEG) -->
-<section id="about" class="about">
-  <div class="about-content reveal-left">
-    <div class="section-eyebrow">The CEO</div>
-    <h2>M. Umair <em>Sikandar</em></h2>
-    <p>M. Umair Sikandar is the Chief Executive Officer of Nestlink Enterprises, leading premier real estate sales, modern construction, and high-yield property developments in Karachi's most prestigious avenues.</p>
-    <p>With distinguished legacy credentials as the Ex-Coordination Secretary of DEFCLAREA (Defence & Clifton Real Estate Agents Association), he maintains deep relationships with Karachi's elite property networks, developers, and private investors.</p>
-    <p>Nestlink's mission centers on strategic advisory, transparent premium plot allocation, and delivering luxury architectural turn-key solutions tailored specifically for high-net-worth clients.</p>
-    <div class="ceo-badge">
-      <div class="title">Official Profile</div>
-      <div class="name">M. Umair Sikandar</div>
-      <div class="role">C.E.O Nestlink Enterprises<br>Ex-Coordination Secretary, DEFCLAREA</div>
-    </div>
-  </div>
-  <div class="ceo-portrait-box reveal-right">
-    <img src="ceo-portrait.jpeg" class="main-portrait" alt="M. Umair Sikandar at executive forum" />
-    <div class="portrait-caption">M. Umair Sikandar presenting real estate insights at an executive forum</div>
-  </div>
-</section>
-
-<!-- MILESTONES (FIXED PATHS TO .JPEG) -->
-<section class="milestones">
-  <div class="reveal" style="text-align: center; max-width: 650px; margin: 0 auto 3rem auto;">
-    <div class="section-eyebrow" style="justify-content: center;">Leadership</div>
-    <h2>Authority <em>& Trust</em></h2>
-    <p style="font-size: 0.95rem; color: rgba(255,255,255,0.6); font-weight: 300;">A legacy founded on long-standing networks, legal compliance, and landmark alignments with national figures.</p>
-  </div>
-  <div class="milestone-grid stagger-parent">
-    <div class="milestone-card reveal" style="--delay: 1;">
-      <div class="milestone-img-wrapper">
-        <img src="milestone-network.jpeg" class="milestone-img" alt="M. Umair Sikandar with Wasim Akram" />
-      </div>
-      <div class="milestone-info">
-        <h3>Network & Influence</h3>
-        <p>Interacting and consulting with key national icons and global brand ambassadors, cementing elite-level market status.</p>
-      </div>
-    </div>
-    <div class="milestone-card reveal" style="--delay: 2;">
-      <div class="milestone-img-wrapper">
-        <img src="milestone-partnership.jpeg" class="milestone-img" alt="M. Umair Sikandar signing partnership" />
-      </div>
-      <div class="milestone-info">
-        <h3>Strategic Partnerships</h3>
-        <p>Securing modern development parameters, developer partnerships, and commercial acquisitions across Karachi and Islamabad.</p>
-      </div>
-    </div>
-    <div class="milestone-card reveal" style="--delay: 3;">
-      <div class="milestone-img-wrapper">
-        <img src="milestone-hq.jpeg" class="milestone-img" alt="Nestlink Quaid Tribute" />
-      </div>
-      <div class="milestone-info">
-        <h3>Zamzama Headquarters</h3>
-        <p>Operating from Phase V Zamzama, Nestlink remains firmly rooted in Pakistan's economic core with absolute civic trust.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- PARALLAX DIVIDER -->
-<div class="parallax-divider" id="parallaxDiv">
-  <div class="parallax-divider-bg" id="parallaxBg"></div>
-  <div class="parallax-divider-text reveal">
-    Karachi's Most Coveted Addresses —<br><em>Curated for the Discerning Investor</em>
-  </div>
-</div>
-
-<!-- PROPERTIES PORTFOLIO -->
-<section id="properties" class="properties">
-  <div class="properties-header reveal">
-    <div class="section-eyebrow">The Portfolio</div>
-    <h2>Featured <em>Villas of DHA Karachi</em></h2>
-    <p class="section-lead">A handpicked collection of premium waterfront villas, coastal bungalows, and architectural masterworks spanning DHA Phase 5 through 8, Seaview, and Clifton.</p>
-  </div>
-
-  <div class="location-tabs reveal">
-    <button class="loc-tab active" onclick="filterProps('all', this)">All Zones</button>
-    <button class="loc-tab" onclick="filterProps('phase8', this)">Phase 8</button>
-    <button class="loc-tab" onclick="filterProps('phase5', this)">Phase 5</button>
-    <button class="loc-tab" onclick="filterProps('phase6', this)">Phase 6</button>
-    <button class="loc-tab" onclick="filterProps('seaview', this)">Seaview</button>
-    <button class="loc-tab" onclick="filterProps('clifton', this)">Clifton</button>
-  </div>
-
-  <div class="grid-container stagger-parent" id="propGrid">
-
-    <!-- Phase 8 — 2 listings -->
-    <a href="https://wa.me/923218289388?text=Hello%20Mr.%20Umair%20Sikandar%2C%20I%20am%20interested%20in%20the%20Modernist%20Waterfront%20Villas%20in%20DHA%20Phase%208." target="_blank" rel="noopener" class="prop-card reveal" style="--delay:1;" data-zone="phase8">
-      <div class="prop-img-wrapper">
-        <div class="prop-tag">Phase 8 · Waterfront</div>
-        <div class="prop-badge">Premium</div>
-        <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=700&q=80" class="prop-img-real" alt="DHA Phase 8 Luxury Waterfront Villa" />
-      </div>
-      <div class="prop-details">
-        <h3>The Oasis Residence</h3>
-        <div class="prop-loc">DHA Phase 8, Karachi</div>
-        <div class="prop-specs">
-          <span class="prop-spec">500 Sq Yd</span>
-          <span class="prop-spec">5 Beds</span>
-          <span class="prop-spec">Sea View</span>
+<main>
+  <!-- HERO -->
+  <section class="hero" aria-label="Hero Spotlight">
+    <div class="hero-bg"></div>
+    <div class="hero-bg-img"></div>
+    <div class="hero-grid"></div>
+    <div class="hero-line"></div>
+    <div class="section-container">
+      <div class="hero-content">
+        <p class="hero-eyebrow">Real Estate Sales, Development & Builders</p>
+        <h1>Premium Living and Sourcing in <em>DHA Karachi</em></h1>
+        <p class="hero-sub">Led by M. Umair Sikandar, Nestlink Enterprises provides unmatched real estate consultancy, development expertise, and investment solutions across Clifton and DHA Karachi's most prestigious phases.</p>
+        <div class="btn-group">
+          <a href="https://wa.me/923218289388?text=Hello%20Mr.%20Umair%20Sikandar%2C%20I%20would%20like%20to%20schedule%20an%20appointment%20regarding%20Nestlink%20Enterprises%20developments." target="_blank" rel="noopener" class="btn-whatsapp">
+            <svg viewBox="0 0 24 24" role="img" aria-label="WhatsApp logo"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.625 1.451 5.403.002 9.803-4.381 9.805-9.792.002-2.618-1.01-5.074-2.854-6.92-1.843-1.845-4.294-2.86-6.914-2.86-5.413 0-9.819 4.397-9.822 9.805-.002 1.557.432 3.078 1.258 4.417L1.51 21.009l4.137-1.12c1.28.694 2.454 1.107 4.1 1.107-.002.001-.002.001 0 0zM17.84 14.5c-.32-.16-1.89-.93-2.18-1.04-.3-.11-.52-.16-.74.16-.22.32-.86 1.04-1.05 1.25-.2.21-.4.24-.72.08-1.04-.52-1.78-.92-2.48-1.52-.56-.48-.92-1.07-1.03-1.26-.11-.19-.01-.29.09-.39.08-.08.19-.22.29-.33.1-.11.13-.19.2-.32.07-.13.03-.25-.02-.35-.05-.1-.44-1.05-.6-1.44-.16-.39-.33-.33-.45-.33h-.38c-.13 0-.34.05-.52.24-.18.19-.68.66-.68 1.61 0 .95.69 1.87.79 2.01.1.13 1.36 2.08 3.29 2.91.46.2.82.32 1.1.41.47.15.89.13 1.23.08.38-.06 1.18-.48 1.34-.95.17-.47.17-.87.12-.95-.05-.08-.19-.13-.51-.29z"/></svg>
+            WhatsApp Sourcing
+          </a>
+          <a href="#properties" class="btn-primary">View Developments</a>
         </div>
-        <div class="prop-meta">Seaside Minimalist Bungalow<span>Price on Request</span></div>
-      </div>
-    </a>
-
-    <a href="https://wa.me/923218289388?text=Hello%20Mr.%20Umair%20Sikandar%2C%20I%20am%20interested%20in%20a%20Phase%208%20Ivy%20Villa." target="_blank" rel="noopener" class="prop-card reveal" style="--delay:2;" data-zone="phase8">
-      <div class="prop-img-wrapper">
-        <div class="prop-tag">Phase 8 · Ivy Extension</div>
-        <img src="https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?auto=format&fit=crop&w=700&q=80" class="prop-img-real" alt="DHA Phase 8 Ivy Bungalow" />
-      </div>
-      <div class="prop-details">
-        <h3>The Ivy Bungalow</h3>
-        <div class="prop-loc">DHA Phase 8 Ext., Karachi</div>
-        <div class="prop-specs">
-          <span class="prop-spec">1000 Sq Yd</span>
-          <span class="prop-spec">6 Beds</span>
-          <span class="prop-spec">Corner Plot</span>
-        </div>
-        <div class="prop-meta">Grand Corner Bungalow<span>Price on Request</span></div>
-      </div>
-    </a>
-
-    <!-- Phase 5 — 2 listings -->
-    <a href="https://wa.me/923218289388?text=Hello%20Mr.%20Umair%20Sikandar%2C%20I%20am%20interested%20in%20a%20Phase%205%20Zamzama%20Residence." target="_blank" rel="noopener" class="prop-card reveal" style="--delay:3;" data-zone="phase5">
-      <div class="prop-img-wrapper">
-        <div class="prop-tag">Phase 5 · Zamzama</div>
-        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=700&q=80" class="prop-img-real" alt="DHA Phase 5 Zamzama Residence" />
-      </div>
-      <div class="prop-details">
-        <h3>The Zamzama Estate</h3>
-        <div class="prop-loc">DHA Phase 5, Karachi</div>
-        <div class="prop-specs">
-          <span class="prop-spec">666 Sq Yd</span>
-          <span class="prop-spec">5 Beds</span>
-          <span class="prop-spec">Park Face</span>
-        </div>
-        <div class="prop-meta">Turnkey Ready Residence<span>Available Now</span></div>
-      </div>
-    </a>
-
-    <a href="https://wa.me/923218289388?text=Hello%20Mr.%20Umair%20Sikandar%2C%20I%20am%20interested%20in%20a%20DHA%20Phase%205%20Tipu%20Sultan%20plot." target="_blank" rel="noopener" class="prop-card reveal" style="--delay:4;" data-zone="phase5">
-      <div class="prop-img-wrapper">
-        <div class="prop-tag">Phase 5 · Tipu Sultan</div>
-        <div class="prop-badge">Investment</div>
-        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=700&q=80" class="prop-img-real" alt="DHA Phase 5 Modern Villa" />
-      </div>
-      <div class="prop-details">
-        <h3>The Tipu Sultan Manor</h3>
-        <div class="prop-loc">DHA Phase 5, Karachi</div>
-        <div class="prop-specs">
-          <span class="prop-spec">500 Sq Yd</span>
-          <span class="prop-spec">Plot</span>
-          <span class="prop-spec">Prime Location</span>
-        </div>
-        <div class="prop-meta">Plot with Approved Plans<span>Price on Request</span></div>
-      </div>
-    </a>
-
-    <!-- Phase 6 — 2 listings -->
-    <a href="https://wa.me/923218289388?text=Hello%20Mr.%20Umair%20Sikandar%2C%20I%20am%20interested%20in%20the%20Contemporary%20Bungalow%20in%20DHA%20Phase%206." target="_blank" rel="noopener" class="prop-card reveal" style="--delay:1;" data-zone="phase6">
-      <div class="prop-img-wrapper">
-        <div class="prop-tag">Phase 6 · Executive</div>
-        <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=700&q=80" class="prop-img-real" alt="DHA Phase 6 Contemporary Bungalow" />
-      </div>
-      <div class="prop-details">
-        <h3>The Contemporary Block</h3>
-        <div class="prop-loc">DHA Phase 6, Karachi</div>
-        <div class="prop-specs">
-          <span class="prop-spec">500 Sq Yd</span>
-          <span class="prop-spec">6 Beds</span>
-          <span class="prop-spec">Pool</span>
-        </div>
-        <div class="prop-meta">6 Bed Modernist Layout<span>Plot Options Available</span></div>
-      </div>
-    </a>
-
-    <a href="https://wa.me/923218289388?text=Hello%20Mr.%20Umair%20Sikandar%2C%20I%20am%20interested%20in%20a%20DHA%20Phase%206%20bungalow." target="_blank" rel="noopener" class="prop-card reveal" style="--delay:2;" data-zone="phase6">
-      <div class="prop-img-wrapper">
-        <div class="prop-tag">Phase 6 · Bukhari</div>
-        <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=700&q=80" class="prop-img-real" alt="DHA Phase 6 Luxury Residence" />
-      </div>
-      <div class="prop-details">
-        <h3>The Bukhari Residence</h3>
-        <div class="prop-loc">DHA Phase 6, Karachi</div>
-        <div class="prop-specs">
-          <span class="prop-spec">1000 Sq Yd</span>
-          <span class="prop-spec">7 Beds</span>
-          <span class="prop-spec">Garden</span>
-        </div>
-        <div class="prop-meta">Grand Family Bungalow<span>Price on Request</span></div>
-      </div>
-    </a>
-
-    <!-- Seaview — 2 listings -->
-    <a href="https://wa.me/923218289388?text=Hello%20Mr.%20Umair%20Sikandar%2C%20I%20am%20interested%20in%20a%20Seaview%20Clifton%20property." target="_blank" rel="noopener" class="prop-card reveal" style="--delay:3;" data-zone="seaview">
-      <div class="prop-img-wrapper">
-        <div class="prop-tag">Seaview · Clifton</div>
-        <div class="prop-badge">Sea Front</div>
-        <img src="https://images.unsplash.com/photo-1615529162924-f8605388461d?auto=format&fit=crop&w=700&q=80" class="prop-img-real" alt="Seaview Clifton Luxury Apartment" />
-      </div>
-      <div class="prop-details">
-        <h3>The Seaview Tower Penthouse</h3>
-        <div class="prop-loc">Seaview, Clifton Karachi</div>
-        <div class="prop-specs">
-          <span class="prop-spec">4200 Sq Ft</span>
-          <span class="prop-spec">4 Beds</span>
-          <span class="prop-spec">Ocean View</span>
-        </div>
-        <div class="prop-meta">Full-Sea-Front Penthouse<span>Price on Request</span></div>
-      </div>
-    </a>
-
-    <a href="https://wa.me/923218289388?text=Hello%20Mr.%20Umair%20Sikandar%2C%20I%20am%20interested%20in%20Seaview%20plot%20options." target="_blank" rel="noopener" class="prop-card reveal" style="--delay:4;" data-zone="seaview">
-      <div class="prop-img-wrapper">
-        <div class="prop-tag">Seaview · Plot</div>
-        <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=700&q=80" class="prop-img-real" alt="Seaview Karachi Plot" />
-      </div>
-      <div class="prop-details">
-        <h3>Seaview Commercial Plot</h3>
-        <div class="prop-loc">Seaview, Clifton Karachi</div>
-        <div class="prop-specs">
-          <span class="prop-spec">2000 Sq Yd</span>
-          <span class="prop-spec">Commercial</span>
-          <span class="prop-spec">Development</span>
-        </div>
-        <div class="prop-meta">Prime Commercial Land<span>Investment Opportunity</span></div>
-      </div>
-    </a>
-
-    <!-- Clifton — 2 listings -->
-    <a href="https://wa.me/923218289388?text=Hello%20Mr.%20Umair%20Sikandar%2C%20I%20am%20interested%20in%20a%20Clifton%20Block%204%20residence." target="_blank" rel="noopener" class="prop-card reveal" style="--delay:1;" data-zone="clifton">
-      <div class="prop-img-wrapper">
-        <div class="prop-tag">Clifton · Block 4</div>
-        <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=700&q=80" class="prop-img-real" alt="Clifton Block 4 Residence" />
-      </div>
-      <div class="prop-details">
-        <h3>The Clifton Courtyard</h3>
-        <div class="prop-loc">Clifton Block 4, Karachi</div>
-        <div class="prop-specs">
-          <span class="prop-spec">666 Sq Yd</span>
-          <span class="prop-spec">5 Beds</span>
-          <span class="prop-spec">Central</span>
-        </div>
-        <div class="prop-meta">Architectural Grandeur Build<span>Turnkey Projects</span></div>
-      </div>
-    </a>
-
-    <a href="https://wa.me/923218289388?text=Hello%20Mr.%20Umair%20Sikandar%2C%20I%20am%20interested%20in%20Emaar%20Crescent%20Bay%20or%20Clifton%20luxury%20apartments." target="_blank" rel="noopener" class="prop-card reveal" style="--delay:2;" data-zone="clifton">
-      <div class="prop-img-wrapper">
-        <div class="prop-tag">Clifton · Crescent Bay</div>
-        <div class="prop-badge">Emaar</div>
-        <img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=700&q=80" class="prop-img-real" alt="Emaar Crescent Bay Clifton" />
-      </div>
-      <div class="prop-details">
-        <h3>Emaar Crescent Bay Tower</h3>
-        <div class="prop-loc">Clifton, Karachi</div>
-        <div class="prop-specs">
-          <span class="prop-spec">3500 Sq Ft</span>
-          <span class="prop-spec">4 Beds</span>
-          <span class="prop-spec">Emaar</span>
-        </div>
-        <div class="prop-meta">High-Rise Luxury Apartment<span>Resale Available</span></div>
-      </div>
-    </a>
-
-  </div><!-- /grid-container -->
-</section>
-
-<!-- CONTACT / ENQUIRY ── -->
-<div id="enquiry" class="enquiry">
-  <div class="enquiry-info reveal-left">
-    <div>
-      <div class="section-eyebrow">Advisory Private Office</div>
-      <h2>Secure Your <em>Investment</em></h2>
-
-      <div class="meeting-cta">
-        <div class="meeting-icon">🏢</div>
-        <div class="meeting-cta-text">
-          <div class="t">Book a Private Consultation</div>
-          <div class="s">Meet us at Zamzama HQ or schedule a site visit</div>
-        </div>
-      </div>
-
-      <div class="enquiry-grid">
-        <div class="enquiry-item">
-          <div class="label">Consultation Hotline</div>
-          <div class="val">+92 321 828 9388</div>
-        </div>
-        <div class="enquiry-item">
-          <div class="label">Nestlink Headquarters</div>
-          <div class="val" style="font-size:1.1rem;">Building No 33-C, Lane No. 6,<br>Zamzama Commercial Phase-V,<br>Karachi, Pakistan</div>
-        </div>
-        <div class="enquiry-item">
-          <div class="label">DEFCLAREA Coordination Wing</div>
-          <div class="val" style="font-size:1.1rem;">Ex-Coordination Secretary,<br>M. Umair Sikandar</div>
+        <div class="hero-stats">
+          <div class="hero-stat"><div class="n">DHA & Clifton</div><div class="l">Primary Markets</div></div>
+          <div class="hero-stat"><div class="n">Ex-Coord Sec.</div><div class="l">DEFCLAREA Leadership</div></div>
+          <div class="hero-stat"><div class="n">6 Zones</div><div class="l">Portfolio Coverage</div></div>
         </div>
       </div>
     </div>
-    <div>
-      <div class="enquiry-socials">
-        <a href="https://linkedin.com/in/umair-sikander-686849bb" target="_blank" rel="noopener">LinkedIn</a>
-        <a href="https://www.facebook.com/umairsik/" target="_blank" rel="noopener">Facebook</a>
-        <a href="https://www.instagram.com/muhammadumair.sikander/" target="_blank" rel="noopener">Instagram</a>
-      </div>
+  </section>
+
+  <!-- TICKER -->
+  <div class="ticker">
+    <div class="ticker-track">
+      <div class="ticker-item">DHA PHASE 8 WATERFRONT VILLAS<span>•</span></div>
+      <div class="ticker-item">DHA PHASE 5 ZAMZAMA ELITE<span>•</span></div>
+      <div class="ticker-item">DHA PHASE 6 MODERN BUNGALOWS<span>•</span></div>
+      <div class="ticker-item">SEAVIEW BLOCK CLIFTON<span>•</span></div>
+      <div class="ticker-item">CLIFTON BLOCK 4 HIGH-END RESIDENCES<span>•</span></div>
+      <div class="ticker-item">EMAAR CRESCENT BAY ACQUISITIONS<span>•</span></div>
+      <div class="ticker-item">ZAMZAMA COMMERCIAL DEVELOPMENTS<span>•</span></div>
+      <!-- Duplicated for seamless loop -->
+      <div class="ticker-item">DHA PHASE 8 WATERFRONT VILLAS<span>•</span></div>
+      <div class="ticker-item">DHA PHASE 5 ZAMZAMA ELITE<span>•</span></div>
+      <div class="ticker-item">DHA PHASE 6 MODERN BUNGALOWS<span>•</span></div>
+      <div class="ticker-item">SEAVIEW BLOCK CLIFTON<span>•</span></div>
+      <div class="ticker-item">CLIFTON BLOCK 4 HIGH-END RESIDENCES<span>•</span></div>
+      <div class="ticker-item">EMAAR CRESCENT BAY ACQUISITIONS<span>•</span></div>
+      <div class="ticker-item">ZAMZAMA COMMERCIAL DEVELOPMENTS<span>•</span></div>
     </div>
   </div>
 
-  <div class="enquiry-form-container reveal-right">
-    <div class="form-header">
-      <h3>Start Your <em style="color:var(--gold-light);font-style:italic;">Sourcing</em></h3>
-      <p>Submit your requirements and our advisory team will reach out within 24 hours.</p>
+  <!-- CEO / ABOUT -->
+  <section id="about" class="about" style="background:#fff;">
+    <div class="section-container about-grid">
+      <div class="about-content reveal-left">
+        <div class="section-eyebrow">The CEO</div>
+        <h2>M. Umair <em>Sikandar</em></h2>
+        <p>M. Umair Sikandar is the Chief Executive Officer of Nestlink Enterprises, leading premier real estate sales, modern construction, and high-yield property developments in Karachi's most prestigious avenues.</p>
+        <p>With distinguished legacy credentials as the Ex-Coordination Secretary of DEFCLAREA (Defence & Clifton Real Estate Agents Association), he maintains deep relationships with Karachi's elite property networks, developers, and private investors.</p>
+        <p>Nestlink's mission centers on strategic advisory, transparent premium plot allocation, and delivering luxury architectural turn-key solutions tailored specifically for high-net-worth clients.</p>
+        <div class="ceo-badge">
+          <p class="title">Official Profile</p>
+          <p class="name">M. Umair Sikandar</p>
+          <p class="role">C.E.O Nestlink Enterprises<br>Ex-Coordination Secretary, DEFCLAREA</p>
+        </div>
+      </div>
+      <div class="ceo-portrait-box reveal-right">
+        <img src="ceo-portrait.jpeg" class="main-portrait" alt="M. Umair Sikandar at executive forum representing Nestlink" width="600" height="700" />
+        <div class="portrait-caption">M. Umair Sikandar presenting real estate insights at an executive forum</div>
+      </div>
     </div>
-    <form id="enquiryForm" onsubmit="handleSubmit(event)">
-      <div class="field">
-        <label for="name">Investor Name</label>
-        <input type="text" id="name" required placeholder="Ex: Tariq Ahmed" />
+  </section>
+
+  <!-- MILESTONES -->
+  <section class="milestones" aria-labelledby="milestones-heading">
+    <div class="section-container">
+      <div class="reveal" style="text-align: center; max-width: 650px; margin: 0 auto 3rem auto;">
+        <p class="section-eyebrow" style="justify-content: center;">Leadership</p>
+        <h2 id="milestones-heading">Authority <em>& Trust</em></h2>
+        <p style="font-size: 0.95rem; color: rgba(255,255,255,0.6); font-weight: 300;">A legacy founded on long-standing networks, legal compliance, and landmark alignments with national figures.</p>
       </div>
-      <div class="field">
-        <label for="contact">Contact Number</label>
-        <input type="text" id="contact" required placeholder="Ex: +92 300 1234567" />
+      <div class="milestone-grid stagger-parent">
+        <div class="milestone-card reveal" style="--delay: 1;">
+          <div class="milestone-img-wrapper">
+            <img src="milestone-network.jpeg" class="milestone-img" alt="M. Umair Sikandar coordinating with corporate icons and brand ambassadors" width="400" height="300" loading="lazy" />
+          </div>
+          <div class="milestone-info">
+            <h3>Network & Influence</h3>
+            <p>Interacting and consulting with key national icons and global brand ambassadors, cementing elite-level market status.</p>
+          </div>
+        </div>
+        <div class="milestone-card reveal" style="--delay: 2;">
+          <div class="milestone-img-wrapper">
+            <img src="milestone-partnership.jpeg" class="milestone-img" alt="M. Umair Sikandar signing real estate developments" width="400" height="300" loading="lazy" />
+          </div>
+          <div class="milestone-info">
+            <h3>Strategic Partnerships</h3>
+            <p>Securing modern development parameters, developer partnerships, and commercial acquisitions across Karachi and Islamabad.</p>
+          </div>
+        </div>
+        <div class="milestone-card reveal" style="--delay: 3;">
+          <div class="milestone-img-wrapper">
+            <img src="milestone-hq.jpeg" class="milestone-img" alt="Nestlink Headquarters entrance in Zamzama Karachi" width="400" height="300" loading="lazy" />
+          </div>
+          <div class="milestone-info">
+            <h3>Zamzama Headquarters</h3>
+            <p>Operating from Phase V Zamzama, Nestlink remains firmly rooted in Pakistan's economic core with absolute civic trust.</p>
+          </div>
+        </div>
       </div>
-      <div class="field">
-        <label for="interest">Preferred Strategy</label>
-        <select id="interest">
-          <option>Direct Meeting at Zamzama</option>
-          <option>DHA Karachi Luxury Sourcing</option>
-          <option>Bespoke Joint-Venture Development</option>
-          <option>Plot Feasibility Valuation</option>
-          <option>Seaview / Clifton Acquisition</option>
-          <option>Phase 8 Waterfront Investment</option>
-        </select>
-      </div>
-      <div class="field">
-        <label for="message">Acquisition Preferences</label>
-        <textarea id="message" placeholder="Include your budget, specific block target, size specifications or custom building goals..."></textarea>
-      </div>
-      <button type="submit" class="btn-primary" style="border:none; cursor:pointer; width:100%; font-family:var(--sans); justify-content:center;" id="submit-btn">
-        Submit Sourcing Details
-      </button>
-      <a href="https://wa.me/923218289388?text=Hello%20Mr.%20Umair%20Sikandar%2C%20I%20am%20interested%20in%20booking%20a%20personal%20real%20estate%20consultation%20with%20Nestlink." target="_blank" rel="noopener" class="btn-whatsapp" style="justify-content:center; width:100%; margin-top:0.5rem;">
-        <svg viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.625 1.451 5.403.002 9.803-4.381 9.805-9.792.002-2.618-1.01-5.074-2.854-6.92-1.843-1.845-4.294-2.86-6.914-2.86-5.413 0-9.819 4.397-9.822 9.805-.002 1.557.432 3.078 1.258 4.417L1.51 21.009l4.137-1.12c1.28.694 2.454 1.107 4.1 1.107-.002.001-.002.001 0 0zM17.84 14.5c-.32-.16-1.89-.93-2.18-1.04-.3-.11-.52-.16-.74.16-.22.32-.86 1.04-1.05 1.25-.2.21-.4.24-.72.08-1.04-.52-1.78-.92-2.48-1.52-.56-.48-.92-1.07-1.03-1.26-.11-.19-.01-.29.09-.39.08-.08.19-.22.29-.33.1-.11.13-.19.2-.32.07-.13.03-.25-.02-.35-.05-.1-.44-1.05-.6-1.44-.16-.39-.33-.33-.45-.33h-.38c-.13 0-.34.05-.52.24-.18.19-.68.66-.68 1.61 0 .95.69 1.87.79 2.01.1.13 1.36 2.08 3.29 2.91.46.2.82.32 1.1.41.47.15.89.13 1.23.08.38-.06 1.18-.48 1.34-.95.17-.47.17-.87.12-.95-.05-.08-.19-.13-.51-.29z"/></svg>
-        Instant WhatsApp Sourcing
-      </a>
-      <p id="form-msg" style="font-size:0.8rem; color:var(--gold-light); display:none; text-align:center; margin-top:0.75rem;">Transmission complete. Nestlink Advisory will contact you immediately.</p>
-    </form>
+    </div>
+  </section>
+
+  <!-- PARALLAX DIVIDER -->
+  <div class="parallax-divider" id="parallaxDiv">
+    <div class="parallax-divider-bg" id="parallaxBg"></div>
+    <div class="parallax-divider-text reveal">
+      Karachi's Most Coveted Addresses —<br><em>Curated for the Discerning Investor</em>
+    </div>
   </div>
-</div>
+
+  <!-- PROPERTIES PORTFOLIO -->
+  <section id="properties" class="properties" aria-labelledby="portfolio-heading">
+    <div class="section-container">
+      <div class="properties-header reveal">
+        <p class="section-eyebrow">The Portfolio</p>
+        <h2 id="portfolio-heading">Featured <em>Villas of DHA Karachi</em></h2>
+        <p class="section-lead">A handpicked collection of premium waterfront villas, coastal bungalows, and architectural masterworks spanning DHA Phase 5 through 8, Seaview, and Clifton.</p>
+      </div>
+
+      <div class="location-tabs reveal">
+        <button class="loc-tab active" onclick="filterProps('all', this)">All Zones</button>
+        <button class="loc-tab" onclick="filterProps('phase8', this)">Phase 8</button>
+        <button class="loc-tab" onclick="filterProps('phase5', this)">Phase 5</button>
+        <button class="loc-tab" onclick="filterProps('phase6', this)">Phase 6</button>
+        <button class="loc-tab" onclick="filterProps('seaview', this)">Seaview</button>
+        <button class="loc-tab" onclick="filterProps('clifton', this)">Clifton</button>
+      </div>
+
+      <div class="grid-container stagger-parent" id="propGrid">
+
+        <!-- Phase 8 — 2 listings -->
+        <a href="https://wa.me/923218289388?text=Hello%20Mr.%20Umair%20Sikandar%2C%20I%20am%20interested%20in%20the%20Modernist%20Waterfront%20Villas%20in%20DHA%20Phase%208." target="_blank" rel="noopener" class="prop-card reveal" style="--delay:1;" data-zone="phase8" aria-label="The Oasis Residence Property Profile">
+          <div class="prop-img-wrapper">
+            <div class="prop-tag">Phase 8 · Waterfront</div>
+            <div class="prop-badge">Premium</div>
+            <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=700&q=80" class="prop-img-real" alt="DHA Phase 8 Luxury Waterfront Villa architecture" loading="lazy" />
+          </div>
+          <div class="prop-details">
+            <h3>The Oasis Residence</h3>
+            <div class="prop-loc">DHA Phase 8, Karachi</div>
+            <div class="prop-specs">
+              <span class="prop-spec">500 Sq Yd</span>
+              <span class="prop-spec">5 Beds</span>
+              <span class="prop-spec">Sea View</span>
+            </div>
+            <div class="prop-meta">Seaside Minimalist Bungalow<span>Price on Request</span></div>
+          </div>
+        </a>
+
+        <a href="https://wa.me/923218289388?text=Hello%20Mr.%20Umair%20Sikandar%2C%20I%20am%20interested%20in%20a%20Phase%208%20Ivy%20Villa." target="_blank" rel="noopener" class="prop-card reveal" style="--delay:2;" data-zone="phase8" aria-label="The Ivy Bungalow Property Profile">
+          <div class="prop-img-wrapper">
+            <div class="prop-tag">Phase 8 · Ivy Extension</div>
+            <img src="https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?auto=format&fit=crop&w=700&q=80" class="prop-img-real" alt="Modern Corner House DHA Phase 8 Karachi" loading="lazy" />
+          </div>
+          <div class="prop-details">
+            <h3>The Ivy Bungalow</h3>
+            <div class="prop-loc">DHA Phase 8 Ext., Karachi</div>
+            <div class="prop-specs">
+              <span class="prop-spec">1000 Sq Yd</span>
+              <span class="prop-spec">6 Beds</span>
+              <span class="prop-spec">Corner Plot</span>
+            </div>
+            <div class="prop-meta">Grand Corner Bungalow<span>Price on Request</span></div>
+          </div>
+        </a>
+
+        <!-- Phase 5 — 2 listings -->
+        <a href="https://wa.me/923218289388?text=Hello%20Mr.%20Umair%20Sikandar%2C%20I%20am%20interested%20in%20a%20Phase%205%20Zamzama%20Residence." target="_blank" rel="noopener" class="prop-card reveal" style="--delay:3;" data-zone="phase5" aria-label="The Zamzama Estate Property Profile">
+          <div class="prop-img-wrapper">
+            <div class="prop-tag">Phase 5 · Zamzama</div>
+            <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=700&q=80" class="prop-img-real" alt="Elite Modern Residence Zamzama Karachi" loading="lazy" />
+          </div>
+          <div class="prop-details">
+            <h3>The Zamzama Estate</h3>
+            <div class="prop-loc">DHA Phase 5, Karachi</div>
+            <div class="prop-specs">
+              <span class="prop-spec">666 Sq Yd</span>
+              <span class="prop-spec">5 Beds</span>
+              <span class="prop-spec">Park Face</span>
+            </div>
+            <div class="prop-meta">Turnkey Ready Residence<span>Available Now</span></div>
+          </div>
+        </a>
+
+        <a href="https://wa.me/923218289388?text=Hello%20Mr.%20Umair%20Sikandar%2C%20I%20am%20interested%20in%20a%20DHA%20Phase%205%20Tipu%20Sultan%20plot." target="_blank" rel="noopener" class="prop-card reveal" style="--delay:4;" data-zone="phase5" aria-label="The Tipu Sultan Manor Property Profile">
+          <div class="prop-img-wrapper">
+            <div class="prop-tag">Phase 5 · Tipu Sultan</div>
+            <div class="prop-badge">Investment</div>
+            <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=700&q=80" class="prop-img-real" alt="Luxury Mansion Plot DHA Phase 5" loading="lazy" />
+          </div>
+          <div class="prop-details">
+            <h3>The Tipu Sultan Manor</h3>
+            <div class="prop-loc">DHA Phase 5, Karachi</div>
+            <div class="prop-specs">
+              <span class="prop-spec">500 Sq Yd</span>
+              <span class="prop-spec">Plot</span>
+              <span class="prop-spec">Prime Location</span>
+            </div>
+            <div class="prop-meta">Plot with Approved Plans<span>Price on Request</span></div>
+          </div>
+        </a>
+
+        <!-- Phase 6 — 2 listings -->
+        <a href="https://wa.me/923218289388?text=Hello%20Mr.%20Umair%20Sikandar%2C%20I%20am%20interested%20in%20the%20Contemporary%20Bungalow%20in%20DHA%20Phase%206." target="_blank" rel="noopener" class="prop-card reveal" style="--delay:1;" data-zone="phase6" aria-label="The Contemporary Block Property Profile">
+          <div class="prop-img-wrapper">
+            <div class="prop-tag">Phase 6 · Executive</div>
+            <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=700&q=80" class="prop-img-real" alt="Contemporary Executive Bungalow DHA Phase 6" loading="lazy" />
+          </div>
+          <div class="prop-details">
+            <h3>The Contemporary Block</h3>
+            <div class="prop-loc">DHA Phase 6, Karachi</div>
+            <div class="prop-specs">
+              <span class="prop-spec">500 Sq Yd</span>
+              <span class="prop-spec">6 Beds</span>
+              <span class="prop-spec">Pool</span>
+            </div>
+            <div class="prop-meta">6 Bed Modernist Layout<span>Plot Options Available</span></div>
+          </div>
+        </a>
+
+        <a href="https://wa.me/923218289388?text=Hello%20Mr.%20Umair%20Sikandar%2C%20I%20am%20interested%20in%20a%20DHA%20Phase%206%20bungalow." target="_blank" rel="noopener" class="prop-card reveal" style="--delay:2;" data-zone="phase6" aria-label="The Bukhari Residence Property Profile">
+          <div class="prop-img-wrapper">
+            <div class="prop-tag">Phase 6 · Bukhari</div>
+            <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=700&q=80" class="prop-img-real" alt="Elite Bukhari Residence DHA Karachi" loading="lazy" />
+          </div>
+          <div class="prop-details">
+            <h3>The Bukhari Residence</h3>
+            <div class="prop-loc">DHA Phase 6, Karachi</div>
+            <div class="prop-specs">
+              <span class="prop-spec">1000 Sq Yd</span>
+              <span class="prop-spec">7 Beds</span>
+              <span class="prop-spec">Garden</span>
+            </div>
+            <div class="prop-meta">Grand Family Bungalow<span>Price on Request</span></div>
+          </div>
+        </a>
+
+        <!-- Seaview — 2 listings -->
+        <a href="https://wa.me/923218289388?text=Hello%20Mr.%20Umair%20Sikandar%2C%20I%20am%20interested%20in%20a%20Seaview%20Clifton%20property." target="_blank" rel="noopener" class="prop-card reveal" style="--delay:3;" data-zone="seaview" aria-label="The Seaview Tower Penthouse Property Profile">
+          <div class="prop-img-wrapper">
+            <div class="prop-tag">Seaview · Clifton</div>
+            <div class="prop-badge">Sea Front</div>
+            <img src="https://images.unsplash.com/photo-1615529162924-f8605388461d?auto=format&fit=crop&w=700&q=80" class="prop-img-real" alt="Ocean View Penthouse Seaview Karachi" loading="lazy" />
+          </div>
+          <div class="prop-details">
+            <h3>The Seaview Tower Penthouse</h3>
+            <div class="prop-loc">Seaview, Clifton Karachi</div>
+            <div class="prop-specs">
+              <span class="prop-spec">4200 Sq Ft</span>
+              <span class="prop-spec">4 Beds</span>
+              <span class="prop-spec">Ocean View</span>
+            </div>
+            <div class="prop-meta">Full-Sea-Front Penthouse<span>Price on Request</span></div>
+          </div>
+        </a>
+
+        <a href="https://wa.me/923218289388?text=Hello%20Mr.%20Umair%20Sikandar%2C%20I%20am%20interested%20in%20Seaview%20plot%20options." target="_blank" rel="noopener" class="prop-card reveal" style="--delay:4;" data-zone="seaview" aria-label="Seaview Commercial Plot details">
+          <div class="prop-img-wrapper">
+            <div class="prop-tag">Seaview · Plot</div>
+            <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=700&q=80" class="prop-img-real" alt="Beachfront Development Land Clifton Seaview" loading="lazy" />
+          </div>
+          <div class="prop-details">
+            <h3>Seaview Commercial Plot</h3>
+            <div class="prop-loc">Seaview, Clifton Karachi</div>
+            <div class="prop-specs">
+              <span class="prop-spec">2000 Sq Yd</span>
+              <span class="prop-spec">Commercial</span>
+              <span class="prop-spec">Development</span>
+            </div>
+            <div class="prop-meta">Prime Commercial Land<span>Investment Opportunity</span></div>
+          </div>
+        </a>
+
+        <!-- Clifton — 2 listings -->
+        <a href="https://wa.me/923218289388?text=Hello%20Mr.%20Umair%20Sikandar%2C%20I%20am%20interested%20in%20a%20Clifton%20Block%204%20residence." target="_blank" rel="noopener" class="prop-card reveal" style="--delay:1;" data-zone="clifton" aria-label="The Clifton Courtyard Property Profile">
+          <div class="prop-img-wrapper">
+            <div class="prop-tag">Clifton · Block 4</div>
+            <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=700&q=80" class="prop-img-real" alt="Luxury Central Bungalow Clifton Block 4" loading="lazy" />
+          </div>
+          <div class="prop-details">
+            <h3>The Clifton Courtyard</h3>
+            <div class="prop-loc">Clifton Block 4, Karachi</div>
+            <div class="prop-specs">
+              <span class="prop-spec">666 Sq Yd</span>
+              <span class="prop-spec">5 Beds</span>
+              <span class="prop-spec">Central</span>
+            </div>
+            <div class="prop-meta">Architectural Grandeur Build<span>Turnkey Projects</span></div>
+          </div>
+        </a>
+
+        <a href="https://wa.me/923218289388?text=Hello%20Mr.%20Umair%20Sikandar%2C%20I%20am%20interested%20in%20Emaar%20Crescent%20Bay%20or%20Clifton%20luxury%20apartments." target="_blank" rel="noopener" class="prop-card reveal" style="--delay:2;" data-zone="clifton" aria-label="Emaar Crescent Bay Property Profile">
+          <div class="prop-img-wrapper">
+            <div class="prop-tag">Clifton · Crescent Bay</div>
+            <div class="prop-badge">Emaar</div>
+            <img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=700&q=80" class="prop-img-real" alt="Emaar Crescent Bay Coastal Tower Highrise Clifton" loading="lazy" />
+          </div>
+          <div class="prop-details">
+            <h3>Emaar Crescent Bay Tower</h3>
+            <div class="prop-loc">Clifton, Karachi</div>
+            <div class="prop-specs">
+              <span class="prop-spec">3500 Sq Ft</span>
+              <span class="prop-spec">4 Beds</span>
+              <span class="prop-spec">Emaar</span>
+            </div>
+            <div class="prop-meta">High-Rise Luxury Apartment<span>Resale Available</span></div>
+          </div>
+        </a>
+
+      </div><!-- /grid-container -->
+    </div>
+  </section>
+
+  <!-- CONTACT / ENQUIRY ── -->
+  <section id="enquiry" class="enquiry" aria-label="Investor Private Office">
+    <div class="enquiry-info reveal-left">
+      <div>
+        <div class="section-eyebrow">Advisory Private Office</div>
+        <h2>Secure Your <em>Investment</em></h2>
+
+        <div class="meeting-cta">
+          <div class="meeting-icon" aria-hidden="true">🏢</div>
+          <div class="meeting-cta-text">
+            <p class="t">Book a Private Consultation</p>
+            <p class="s">Meet us at Zamzama HQ or schedule a site visit</p>
+          </div>
+        </div>
+
+        <div class="enquiry-grid">
+          <div class="enquiry-item">
+            <p class="label">Consultation Hotline</p>
+            <p class="val">+92 321 828 9388</p>
+          </div>
+          <div class="enquiry-item">
+            <p class="label">Nestlink Headquarters</p>
+            <p class="val" style="font-size:1.15rem;">Building No 33-C, Lane No. 6,<br>Zamzama Commercial Phase-V,<br>Karachi, Pakistan</p>
+          </div>
+          <div class="enquiry-item">
+            <p class="label">DEFCLAREA Coordination Wing</p>
+            <p class="val" style="font-size:1.15rem;">Ex-Coordination Secretary,<br>M. Umair Sikandar</p>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="enquiry-socials">
+          <a href="https://linkedin.com/in/umair-sikander-686849bb" target="_blank" rel="noopener" aria-label="Follow M. Umair Sikandar on LinkedIn">LinkedIn</a>
+          <a href="https://www.facebook.com/umairsik/" target="_blank" rel="noopener" aria-label="Follow M. Umair Sikandar on Facebook">Facebook</a>
+          <a href="https://www.instagram.com/muhammadumair.sikander/" target="_blank" rel="noopener" aria-label="Follow M. Umair Sikandar on Instagram">Instagram</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="enquiry-form-container reveal-right">
+      <div class="form-header">
+        <h3>Start Your <em style="color:var(--gold-light);font-style:italic; font-weight:400;">Sourcing</em></h3>
+        <p>Submit your requirements and our advisory team will reach out within 24 hours.</p>
+      </div>
+      <form id="enquiryForm" onsubmit="handleSubmit(event)">
+        <div class="field">
+          <label for="name">Investor Name</label>
+          <input type="text" id="name" required placeholder="Ex: Tariq Ahmed" autocomplete="name" />
+        </div>
+        <div class="field">
+          <label for="contact">Contact Number</label>
+          <input type="tel" id="contact" required placeholder="Ex: +92 300 1234567" autocomplete="tel" />
+        </div>
+        <div class="field">
+          <label for="interest">Preferred Strategy</label>
+          <select id="interest">
+            <option>Direct Meeting at Zamzama</option>
+            <option>DHA Karachi Luxury Sourcing</option>
+            <option>Bespoke Joint-Venture Development</option>
+            <option>Plot Feasibility Valuation</option>
+            <option>Seaview / Clifton Acquisition</option>
+            <option>Phase 8 Waterfront Investment</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="message">Acquisition Preferences</label>
+          <textarea id="message" placeholder="Include your budget, specific block target, size specifications or custom building goals..."></textarea>
+        </div>
+        <button type="submit" class="btn-primary" style="border:none; cursor:pointer; width:100%; justify-content:center;" id="submit-btn">
+          Submit Sourcing Details
+        </button>
+        <a href="https://wa.me/923218289388?text=Hello%20Mr.%20Umair%20Sikandar%2C%20I%20am%20interested%20in%20booking%20a%20personal%20real%20estate%20consultation%20with%20Nestlink." target="_blank" rel="noopener" class="btn-whatsapp" style="justify-content:center; width:100%; margin-top:0.5rem;">
+          <svg viewBox="0 0 24 24" role="img" aria-label="WhatsApp Logo"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.625 1.451 5.403.002 9.803-4.381 9.805-9.792.002-2.618-1.01-5.074-2.854-6.92-1.843-1.845-4.294-2.86-6.914-2.86-5.413 0-9.819 4.397-9.822 9.805-.002 1.557.432 3.078 1.258 4.417L1.51 21.009l4.137-1.12c1.28.694 2.454 1.107 4.1 1.107-.002.001-.002.001 0 0zM17.84 14.5c-.32-.16-1.89-.93-2.18-1.04-.3-.11-.52-.16-.74.16-.22.32-.86 1.04-1.05 1.25-.2.21-.4.24-.72.08-1.04-.52-1.78-.92-2.48-1.52-.56-.48-.92-1.07-1.03-1.26-.11-.19-.01-.29.09-.39.08-.08.19-.22.29-.33.1-.11.13-.19.2-.32.07-.13.03-.25-.02-.35-.05-.1-.44-1.05-.6-1.44-.16-.39-.33-.33-.45-.33h-.38c-.13 0-.34.05-.52.24-.18.19-.68.66-.68 1.61 0 .95.69 1.87.79 2.01.1.13 1.36 2.08 3.29 2.91.46.2.82.32 1.1.41.47.15.89.13 1.23.08.38-.06 1.18-.48 1.34-.95.17-.47.17-.87.12-.95-.05-.08-.19-.13-.51-.29z"/></svg>
+          Instant WhatsApp Sourcing
+        </a>
+          <p id="form-msg" style="font-size:0.8rem; color:var(--gold-light); display:none; text-align:center; margin-top:0.75rem;">Transmission complete. Nestlink Advisory will contact you immediately.</p>
+      </form>
+    </div>
+  </section>
+</main>
 
 <!-- FOOTER -->
 <footer>
@@ -1017,27 +1955,48 @@
     const nav = document.getElementById('nav');
     if (gate) {
       gate.classList.add('dismissed');
-      // Completely hide from rendering stack after transition finishes to fix white screen bug
       setTimeout(() => {
         gate.style.display = 'none';
       }, 1000);
     }
     if (nav) {
-      nav.classList.add('visible');
+      nav.style.opacity = '1';
+      nav.style.pointerEvents = 'auto';
     }
   }
 
-  /* ── STICKY NAV & GATE AUTO DISMISS ── */
-  window.addEventListener('scroll', () => {
+  /* ── MOBILE NAV DRAWER TOGGLE ── */
+  const menuToggle = document.getElementById('menuToggle');
+  const mobileDrawer = document.getElementById('mobileDrawer');
+  
+  function toggleDrawer() {
+    const isActive = mobileDrawer.classList.toggle('active');
+    menuToggle.classList.toggle('active');
+    menuToggle.setAttribute('aria-expanded', isActive);
+    mobileDrawer.setAttribute('aria-hidden', !isActive);
+  }
+  
+  if (menuToggle) {
+    menuToggle.addEventListener('click', toggleDrawer);
+  }
+
+  /* ── DEBOUNCED SCROLL LISTENER (RAF OPTIMIZED) ── */
+  let lastScrollY = 0;
+  let ticking = false;
+
+  function updateScrollElements() {
     const sTop = window.scrollY;
     const gate = document.getElementById('welcomeGate');
     const nav = document.getElementById('nav');
-    
-    // Smooth swipe-away threshold triggered cleanly
-    if (sTop > 10 && gate && !gate.classList.contains('dismissed')) {
+    const parallaxBg = document.getElementById('parallaxBg');
+    const parallaxDiv = document.getElementById('parallaxDiv');
+
+    // Auto dismiss gate on scroll
+    if (sTop > 20 && gate && !gate.classList.contains('dismissed')) {
       dismissGate();
     }
-    
+
+    // Sticky nav state transitions
     if (nav) {
       if (sTop > 50) {
         nav.classList.add('scrolled');
@@ -1045,43 +2004,63 @@
         nav.classList.remove('scrolled');
       }
     }
-  }, { passive: true });
 
-  /* ── SCROLL REVEAL ── */
-  document.addEventListener("DOMContentLoaded", function () {
-    const allReveal = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
-    const obs = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
-      });
-    }, { threshold: 0.05, rootMargin: "0px 0px -30px 0px" });
-    allReveal.forEach(el => obs.observe(el));
-  });
-
-  /* ── PARALLAX DIVIDER ── */
-  const parallaxBg = document.getElementById('parallaxBg');
-  const parallaxDiv = document.getElementById('parallaxDiv');
-  if (parallaxBg && parallaxDiv) {
-    window.addEventListener('scroll', () => {
+    // Parallax execution
+    if (parallaxBg && parallaxDiv) {
       const rect = parallaxDiv.getBoundingClientRect();
-      const progress = (window.innerHeight - rect.top) / (window.innerHeight + rect.height);
-      parallaxBg.style.transform = `translateY(${(progress - 0.5) * 80}px)`;
-    }, { passive: true });
+      const viewHeight = window.innerHeight;
+      
+      // Only execute calc when element is within viewport bounds
+      if (rect.top < viewHeight && rect.bottom > 0) {
+        const progress = (viewHeight - rect.top) / (viewHeight + rect.height);
+        parallaxBg.style.transform = `translate3d(0, ${(progress - 0.5) * 80}px, 0)`;
+      }
+    }
+
+    ticking = false;
   }
 
-  /* ── PROPERTY ZONE FILTER ── */
+  window.addEventListener('scroll', () => {
+    lastScrollY = window.scrollY;
+    if (!ticking) {
+      window.requestAnimationFrame(updateScrollElements);
+      ticking = true;
+    }
+  }, { passive: true });
+
+  /* ── INTERSECTION OBSERVER FOR SCROLL REVEAL ── */
+  document.addEventListener("DOMContentLoaded", function () {
+    const allReveal = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.05,
+      rootMargin: "0px 0px -40px 0px"
+    });
+    
+    allReveal.forEach(el => observer.observe(el));
+  });
+
+  /* ── PROPERTY ZONE FILTERING ENGINE ── */
   function filterProps(zone, btn) {
-    document.querySelectorAll('.loc-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.loc-tab').forEach(tab => tab.classList.remove('active'));
     btn.classList.add('active');
+    
     document.querySelectorAll('.prop-card').forEach(card => {
       if (zone === 'all' || card.dataset.zone === zone) {
         card.style.display = '';
         card.style.opacity = '0';
-        card.style.transform = 'translateY(20px)';
-        requestAnimationFrame(() => {
+        card.style.transform = 'translate3d(0, 20px, 0)';
+        
+        window.requestAnimationFrame(() => {
           card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
           card.style.opacity = '1';
-          card.style.transform = 'translateY(0)';
+          card.style.transform = 'translate3d(0, 0, 0)';
         });
       } else {
         card.style.display = 'none';
@@ -1089,14 +2068,20 @@
     });
   }
 
-  /* ── FORM SUBMIT ── */
-  function handleSubmit(e) {
-    e.preventDefault();
+  /* ── FORM TRANSACTION PIPELINE ── */
+  function handleSubmit(event) {
+    event.preventDefault();
     const btn = document.getElementById('submit-btn');
     const msg = document.getElementById('form-msg');
+    
     btn.innerText = "Transmitting to Nestlink HQ...";
-    btn.style.opacity = "0.6"; btn.style.pointerEvents = "none";
-    setTimeout(() => { btn.style.display = "none"; msg.style.display = "block"; }, 1100);
+    btn.style.opacity = "0.6";
+    btn.style.pointerEvents = "none";
+    
+    setTimeout(() => {
+      btn.style.display = "none";
+      msg.style.display = "block";
+    }, 1100);
   }
 </script>
 </body>
